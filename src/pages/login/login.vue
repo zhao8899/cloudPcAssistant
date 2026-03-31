@@ -130,7 +130,7 @@
             v-model="showModel"
             show-cancel-button
             :show-title="false"
-            confirm-color="var(--color-primary)"
+            confirm-color="var(--md-primary)"
             @confirm=";(isCheckAgreement = true), (showModel = false)"
             @cancel="showModel = false"
         >
@@ -332,7 +332,7 @@ page {
     min-height: 100%;
     padding: 20px 16px;
     box-sizing: border-box;
-    background: linear-gradient(180deg, #edf3fb 0%, #f8fbff 100%);
+    background: var(--md-background);
 }
 
 .desktop-login__shell {
@@ -344,29 +344,29 @@ page {
 
 .desktop-login__brand {
     padding: 18px;
-    border-radius: 24px;
+    border-radius: var(--md-radius-lg);
     display: flex;
     align-items: center;
     gap: 14px;
-    background: linear-gradient(135deg, #0f6adf 0%, #4b86ff 100%);
-    box-shadow: 0 18px 40px rgba(37, 99, 235, 0.18);
+    background: var(--md-primary);
+    box-shadow: var(--md-elevation-1);
 }
 
 .desktop-login__logo {
     width: 72px;
     height: 72px;
-    border-radius: 20px;
+    border-radius: var(--md-radius-md);
     background: rgba(255, 255, 255, 0.14);
 }
 
 .desktop-login__brand-text {
     min-width: 0;
-    color: #ffffff;
+    color: var(--md-on-primary);
 }
 
 .desktop-login__title {
     font-size: 24px;
-    font-weight: 700;
+    font-weight: 500;
 }
 
 .desktop-login__subtitle {
@@ -377,10 +377,10 @@ page {
 
 .desktop-login__panel {
     padding: 16px;
-    border-radius: 22px;
-    background: rgba(255, 255, 255, 0.96);
-    border: 1px solid rgba(15, 23, 42, 0.06);
-    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    border-radius: var(--md-radius-lg);
+    background: var(--md-surface);
+    border: 1px solid var(--md-outline-variant);
+    box-shadow: var(--md-elevation-1);
 }
 
 .desktop-login__switch {
@@ -389,25 +389,26 @@ page {
     gap: 8px;
     margin-bottom: 16px;
     padding: 4px;
-    border-radius: 16px;
-    background: #eef2ff;
+    border-radius: var(--md-radius-md);
+    background: var(--md-primary-container);
 }
 
 .desktop-login__switch-item {
     height: 40px;
-    border-radius: 12px;
+    border-radius: var(--md-radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #475569;
+    color: var(--md-on-surface-variant);
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 500;
+    cursor: pointer;
 }
 
 .desktop-login__switch-item.is-active {
-    background: #ffffff;
-    color: #2563eb;
-    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.12);
+    background: var(--md-surface);
+    color: var(--md-primary);
+    box-shadow: var(--md-elevation-1);
 }
 
 .desktop-login__stack + .desktop-login__stack {
@@ -417,12 +418,12 @@ page {
 .desktop-field {
     height: 50px;
     padding: 0 14px;
-    border-radius: 14px;
+    border-radius: var(--md-radius-sm);
     display: flex;
     align-items: center;
     gap: 10px;
-    background: #f8fafc;
-    border: 1px solid #dbe3f0;
+    background: var(--md-background);
+    border: 1px solid var(--md-outline-variant);
 }
 
 .desktop-field--mt {
@@ -441,10 +442,11 @@ page {
 }
 
 .desktop-field__link {
-    color: #2563eb;
+    color: var(--md-primary);
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 500;
     white-space: nowrap;
+    cursor: pointer;
 }
 
 .desktop-field__link--code {
@@ -462,7 +464,7 @@ page {
     flex-wrap: wrap;
     gap: 4px;
     font-size: 12px;
-    color: #64748b;
+    color: var(--md-on-surface-variant);
 }
 
 .desktop-login__footer {
@@ -472,7 +474,7 @@ page {
     align-items: center;
     gap: 12px;
     font-size: 13px;
-    color: #64748b;
+    color: var(--md-on-surface-variant);
 }
 
 .desktop-login__footer-text {
@@ -494,11 +496,11 @@ page {
 }
 
 .text-primary {
-    color: #2563eb;
+    color: var(--md-primary);
 }
 
 .text-muted {
-    color: #94a3b8;
+    color: var(--md-on-surface-variant);
 }
 
 @media (max-width: 720px) {
