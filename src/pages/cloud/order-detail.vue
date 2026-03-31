@@ -1,7 +1,21 @@
 <template>
-    <view class="page" v-if="detailState.data.id">
+    <view v-if="pageState.loading" class="page-loading">
         <view class="nav">
-            <view class="nav__back" @click="back">&lt;</view>
+            <view class="nav__back" @click="back">‹</view>
+            <view class="nav__title">订单详情</view>
+        </view>
+        <view class="loading-placeholder">加载中...</view>
+    </view>
+    <view v-else-if="pageState.error" class="page-loading">
+        <view class="nav">
+            <view class="nav__back" @click="back">‹</view>
+            <view class="nav__title">订单详情</view>
+        </view>
+        <view class="loading-placeholder">{{ pageState.error }}</view>
+    </view>
+    <view class="page" v-else-if="detailState.data.id">
+        <view class="nav">
+            <view class="nav__back" @click="back">‹</view>
             <view class="nav__title">订单详情</view>
         </view>
 
@@ -77,6 +91,7 @@ import { navigateDesktopBack } from '@/utils/desktop'
 import { onLoad } from '@dcloudio/uni-app'
 import { computed, reactive, ref } from 'vue'
 
+const pageState = reactive({ loading: true, error: '' })
 const detailState = reactive({
     data: {} as any
 })
@@ -85,12 +100,14 @@ const isRenewApply = computed(() => Number(detailState.data?.is_renew_apply || 0
 const approveButtonText = computed(() => (isRenewApply.value ? '审核并续期' : '审核并开通'))
 
 const loadDetail = async (id: number) => {
+    pageState.loading = true
+    pageState.error = ''
     try {
         detailState.data = (await getCloudOrderWorkbenchDetail({ id })) || {}
     } catch (error) {
-        if (typeof error !== 'string') {
-            uni.$u.toast('加载详情失败')
-        }
+        pageState.error = typeof error === 'string' ? error : '加载详情失败，请返回重试'
+    } finally {
+        pageState.loading = false
     }
 }
 
@@ -187,54 +204,71 @@ const goInstanceDetail = () => {
 </script>
 
 <style scoped lang="scss">
+.page-loading {
+    min-height: 100vh;
+    background: var(--md-background);
+    .loading-placeholder {
+        padding: 40px 20px;
+        text-align: center;
+        color: var(--md-on-surface-variant);
+        font-size: 14px;
+    }
+}
+
 .page {
     min-height: 100vh;
-    background: #f8fafc;
+    background: var(--md-background);
+    display: flex;
+    flex-direction: column;
 }
 
 .nav {
     display: flex;
     align-items: center;
-    height: 110rpx;
-    padding: 0 28rpx;
-    color: #fff;
-    background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
-    border-bottom-left-radius: 28rpx;
-    border-bottom-right-radius: 28rpx;
+    height: 56px;
+    padding: 0 4px 0 8px;
+    background: var(--md-surface);
+    border-bottom: 1px solid var(--md-outline-variant);
+    flex-shrink: 0;
 }
 
 .nav__back {
-    width: 60rpx;
-    font-size: 36rpx;
-    font-weight: 700;
+    width: 40px;
+    font-size: 28px;
+    color: var(--md-on-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 }
 
 .nav__title {
     flex: 1;
     text-align: center;
-    margin-right: 60rpx;
-    font-size: 30rpx;
-    font-weight: 900;
+    margin-right: 40px;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--md-on-surface);
 }
 
 .card {
-    margin: 28rpx;
-    padding: 28rpx;
-    border-radius: 28rpx;
-    background: #fff;
-    box-shadow: 0 16rpx 40rpx rgba(15, 23, 42, 0.05);
+    margin: 12px 14px 0;
+    padding: 14px;
+    border-radius: var(--md-radius-md);
+    background: var(--md-surface);
+    box-shadow: var(--md-elevation-1);
 }
 
 .card__title {
-    font-size: 30rpx;
-    color: #0f172a;
-    font-weight: 900;
+    font-size: 16px;
+    color: var(--md-on-surface);
+    font-weight: 500;
 }
 
 .card__title-row {
     display: flex;
     align-items: center;
-    gap: 14rpx;
+    gap: 8px;
     flex-wrap: wrap;
 }
 
@@ -242,7 +276,7 @@ const goInstanceDetail = () => {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 20rpx;
+    gap: 10px;
 }
 
 .card__main {
@@ -251,71 +285,73 @@ const goInstanceDetail = () => {
 }
 
 .card__link-btn {
-    padding: 14rpx 24rpx;
-    border-radius: 999rpx;
-    background: #eff6ff;
-    color: #2563eb;
-    font-size: 20rpx;
-    font-weight: 800;
+    padding: 6px 12px;
+    border-radius: var(--md-radius-full);
+    background: var(--md-primary-container);
+    color: var(--md-primary);
+    font-size: 12px;
+    font-weight: 500;
     line-height: 1;
+    cursor: pointer;
 }
 
 .card__actions {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
-    gap: 12rpx;
+    gap: 8px;
 }
 
 .card__sub-title {
-    font-size: 26rpx;
-    color: #0f172a;
-    font-weight: 900;
+    font-size: 14px;
+    color: var(--md-on-surface);
+    font-weight: 500;
+    margin-bottom: 4px;
 }
 
 .card__status {
     display: inline-flex;
-    margin-top: 12rpx;
-    padding: 10rpx 18rpx;
-    border-radius: 999rpx;
-    font-size: 20rpx;
-    font-weight: 800;
+    margin-top: 6px;
+    padding: 4px 10px;
+    border-radius: var(--md-radius-full);
+    font-size: 12px;
+    font-weight: 500;
 }
 
 .card__status.is-approved {
-    background: #eff6ff;
-    color: #2563eb;
+    background: var(--status-running-bg);
+    color: var(--status-running-fg);
 }
 
 .card__status.is-pending {
-    background: #fff7ed;
-    color: #ea580c;
+    background: var(--status-warning-bg);
+    color: var(--status-warning-fg);
 }
 
 .card__status.is-completed {
-    background: #ecfdf5;
+    background: rgba(5, 150, 105, 0.12);
     color: #059669;
 }
 
 .card__status.is-provisioning {
-    background: #eef2ff;
-    color: #4f46e5;
+    background: var(--md-primary-container);
+    color: var(--md-primary);
 }
 
 .card__status.is-rejected,
 .card__status.is-failed {
-    background: #fff1f2;
-    color: #e11d48;
+    background: var(--status-expired-bg);
+    color: var(--status-expired-fg);
 }
 
 .row {
     display: flex;
     justify-content: space-between;
-    gap: 24rpx;
-    padding: 18rpx 0;
-    border-bottom: 1rpx solid #f1f5f9;
-    color: #334155;
-    font-size: 22rpx;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--md-outline-variant);
+    color: var(--md-on-surface);
+    font-size: 13px;
 }
 
 .row:last-child {
@@ -323,8 +359,8 @@ const goInstanceDetail = () => {
 }
 
 .log-item {
-    padding: 18rpx 0;
-    border-bottom: 1rpx solid #f1f5f9;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--md-outline-variant);
 }
 
 .log-item:last-child {
@@ -332,24 +368,25 @@ const goInstanceDetail = () => {
 }
 
 .log-item__time {
-    color: #94a3b8;
-    font-size: 18rpx;
+    color: var(--md-on-surface-variant);
+    font-size: 11px;
 }
 
 .log-item__text {
-    margin-top: 8rpx;
-    color: #334155;
-    font-size: 22rpx;
+    margin-top: 4px;
+    color: var(--md-on-surface);
+    font-size: 13px;
     line-height: 1.6;
 }
 
 .action-btn {
-    min-width: 132rpx;
-    padding: 14rpx 22rpx;
-    border-radius: 999rpx;
+    min-width: 72px;
+    padding: 6px 14px;
+    border-radius: var(--md-radius-full);
     text-align: center;
-    font-size: 20rpx;
-    font-weight: 800;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
 }
 
 .action-btn.is-loading {
@@ -358,17 +395,17 @@ const goInstanceDetail = () => {
 }
 
 .action-btn--primary {
-    background: #2563eb;
-    color: #fff;
+    background: var(--md-primary);
+    color: var(--md-on-primary);
 }
 
 .action-btn--danger {
-    background: #fff1f2;
-    color: #e11d48;
+    background: var(--status-expired-bg);
+    color: var(--status-expired-fg);
 }
 
 .action-btn--muted {
-    background: #f1f5f9;
-    color: #475569;
+    background: var(--md-surface-variant);
+    color: var(--md-on-surface-variant);
 }
 </style>
