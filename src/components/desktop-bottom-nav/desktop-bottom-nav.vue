@@ -7,7 +7,10 @@
             :class="{ 'is-active': currentPath === item.path }"
             @click="go(item.path)"
         >
-            <view class="desktop-bottom-nav__label">{{ item.label }}</view>
+            <view class="desktop-bottom-nav__pill">
+                <text class="desktop-bottom-nav__icon">{{ item.icon }}</text>
+            </view>
+            <text class="desktop-bottom-nav__label">{{ item.label }}</text>
         </view>
     </view>
 </template>
@@ -19,9 +22,10 @@ import { computed } from 'vue'
 const isDesktop = isDesktopClient()
 
 const navItems = [
-    { path: '/pages/desktop/home', label: '主页' },
-    { path: '/pages/cloud/orders', label: '订单' },
-    { path: '/pages/user/user', label: '我的' }
+    { path: '/pages/desktop/home',    icon: '🏠', label: '工作台' },
+    { path: '/pages/cloud/resources', icon: '🖥',  label: '云资源' },
+    { path: '/pages/news/news',       icon: '📰', label: '资讯'   },
+    { path: '/pages/user/user',       icon: '👤', label: '我的'   },
 ]
 
 const currentPath = computed(() => {
@@ -37,38 +41,53 @@ const go = (path: string) => {
 
 <style scoped lang="scss">
 .desktop-bottom-nav {
-    position: fixed;
-    left: 50%;
-    bottom: 12px;
-    transform: translateX(-50%);
-    z-index: 50;
     display: flex;
+    justify-content: space-around;
     align-items: center;
-    gap: 8px;
-    padding: 8px;
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.96);
-    border: 1px solid rgba(15, 23, 42, 0.08);
-    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+    background: var(--md-surface);
+    border-top: 1px solid var(--md-outline-variant);
+    padding: 8px 0 12px;
+    flex-shrink: 0;
 }
 
 .desktop-bottom-nav__item {
-    min-width: 64px;
-    padding: 8px 14px;
-    border-radius: 12px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.desktop-bottom-nav__pill {
+    width: 64px;
+    height: 28px;
+    border-radius: var(--md-radius-full);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #64748b;
 }
 
-.desktop-bottom-nav__item.is-active {
-    background: #eef3ff;
-    color: #2563eb;
+.desktop-bottom-nav__icon {
+    font-size: 16px;
 }
 
 .desktop-bottom-nav__label {
-    font-size: 13px;
-    font-weight: 700;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--md-on-surface-variant);
+    line-height: 1;
+}
+
+.desktop-bottom-nav__item.is-active {
+    .desktop-bottom-nav__pill {
+        background: var(--md-primary-container);
+    }
+
+    .desktop-bottom-nav__label {
+        color: var(--md-primary);
+        font-weight: 700;
+    }
 }
 </style>

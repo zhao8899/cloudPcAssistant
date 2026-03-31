@@ -140,8 +140,8 @@ import { getDecorate } from '@/api/shop'
 import { useAppStore } from '@/stores/app'
 import { useUserStore } from '@/stores/user'
 import { showDesktopReminderWindow } from '@/utils/desktop'
-import { onShow } from '@dcloudio/uni-app'
-import { computed, reactive } from 'vue'
+import { onHide, onShow, onUnload } from '@dcloudio/uni-app'
+import { computed, reactive, ref } from 'vue'
 
 type CloudResourceItem = {
     id?: number | string
@@ -187,6 +187,9 @@ const expiringResource = computed(() => {
         .sort((left, right) => Number(left.expired_at || 0) - Number(right.expired_at || 0))
     return expiringItems[0] || null
 })
+const nowSeconds = ref(Math.floor(Date.now() / 1000))
+let tickTimer: ReturnType<typeof setInterval> | null = null
+
 const expiringCountdownText = computed(() => {
     const item = expiringResource.value
     if (!item) return '暂无到期提醒'
@@ -194,7 +197,7 @@ const expiringCountdownText = computed(() => {
     const expiredAt = Number(item.expired_at || 0)
     if (!expiredAt) return '暂无到期提醒'
 
-    const diff = expiredAt - Math.floor(Date.now() / 1000)
+    const diff = expiredAt - nowSeconds.value
     if (diff <= 0) return '已到期'
 
     const days = Math.floor(diff / 86400)
@@ -233,11 +236,15 @@ const loadHomeData = async () => {
 
 const loadSupportData = async () => {
     const data = await getDecorate({ id: 3 })
-    const pages = JSON.parse(String(data?.data || '[]'))
-    const customerServicePage = Array.isArray(pages)
-        ? pages.find((item: any) => item?.name === 'customer-service')
-        : null
-    supportState.content = customerServicePage?.content || {}
+    try {
+        const pages = JSON.parse(String(data?.data || '[]'))
+        const customerServicePage = Array.isArray(pages)
+            ? pages.find((item: any) => item?.name === 'customer-service')
+            : null
+        supportState.content = customerServicePage?.content || {}
+    } catch {
+        // Malformed decoration data — leave support content as default empty state
+    }
 }
 
 const reloadData = async () => {
@@ -246,7 +253,9 @@ const reloadData = async () => {
 
     try {
         await appStore.getConfig()
-        await loadSupportData()
+
+        // Support data failure is non-fatal — run independently so it doesn't block home data
+        loadSupportData().catch(() => {})
 
         if (!userStore.isLogin) {
             resetData()
@@ -290,15 +299,32 @@ const openReminderWindow = async () => {
 
 onShow(() => {
     reloadData()
+    tickTimer = setInterval(() => {
+        nowSeconds.value = Math.floor(Date.now() / 1000)
+    }, 1000)
+})
+
+onHide(() => {
+    if (tickTimer) { clearInterval(tickTimer); tickTimer = null }
+})
+
+onUnload(() => {
+    if (tickTimer) { clearInterval(tickTimer); tickTimer = null }
 })
 </script>
 
 <style scoped lang="scss">
 .desktop-page {
     min-height: 100vh;
-    padding: 10px 10px 72px;
-    box-sizing: border-box;
-    background: linear-gradient(180deg, #edf3fb 0%, #f4f7fb 100%);
+    display: flex;
+    flex-direction: column;
+    background: var(--md-background);
+}
+
+.desktop-shell {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
 }
 
 .action-row {
@@ -315,42 +341,47 @@ onShow(() => {
 .resource-row__link,
 .expiry-card__button,
 .support-actions__button {
-    transition: background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+    transition: background-color 0.15s, color 0.15s;
 }
 
 .action-button {
     height: 42px;
     padding: 0 12px;
-    border-radius: 14px;
+    border-radius: var(--md-radius-md);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.96);
-    border: 1px solid rgba(15, 23, 42, 0.06);
-    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
-    color: #2563eb;
+    background: var(--md-surface);
+    border: 1px solid var(--md-outline-variant);
+    box-shadow: var(--md-elevation-1);
+    color: var(--md-primary);
     font-size: 13px;
-    font-weight: 700;
+    font-weight: 600;
+    &:active { background: var(--md-surface-variant); }
 }
 
 .action-button--primary,
 .filled-button,
 .expiry-card__button--primary,
 .support-actions__button--primary {
-    background: linear-gradient(135deg, #2563eb 0%, #635bff 100%);
-    color: #ffffff;
+    background: var(--md-primary);
+    color: var(--md-on-primary);
+    border-color: transparent;
+    box-shadow: none;
+    &:active { opacity: 0.88; }
 }
 
 .floating-entry {
     position: relative;
     height: 42px;
-    border-radius: 14px;
+    border-radius: var(--md-radius-md);
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.96);
-    border: 1px solid rgba(15, 23, 42, 0.06);
-    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+    background: var(--md-surface);
+    border: 1px solid var(--md-outline-variant);
+    box-shadow: var(--md-elevation-1);
+    &:active { background: var(--md-surface-variant); }
 }
 
 .floating-entry__image {
@@ -363,16 +394,16 @@ onShow(() => {
     left: 0;
     top: -32px;
     padding: 5px 8px;
-    border-radius: 10px;
-    background: rgba(15, 23, 42, 0.92);
-    color: #ffffff;
+    border-radius: var(--md-radius-sm);
+    background: var(--md-on-surface);
+    color: var(--md-surface);
     font-size: 11px;
-    font-weight: 700;
+    font-weight: 600;
     white-space: nowrap;
     opacity: 0;
     pointer-events: none;
     transform: translateY(4px);
-    transition: opacity 0.18s ease, transform 0.18s ease;
+    transition: opacity 0.18s, transform 0.18s;
 }
 
 .floating-entry:hover .floating-entry__tooltip {
@@ -388,44 +419,43 @@ onShow(() => {
 
 .state-banner {
     padding: 12px 14px;
-    border-radius: 16px;
+    border-radius: var(--md-radius-md);
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
-    background: #fef2f2;
-    color: #b91c1c;
+    background: var(--md-error-container);
+    color: var(--md-error);
 }
 
 .state-banner__action,
 .panel__link,
 .resource-row__link {
-    color: #2563eb;
+    color: var(--md-primary);
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .login-panel {
     padding: 14px;
-    border-radius: 18px;
+    border-radius: var(--md-radius-md);
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    background: rgba(255, 255, 255, 0.94);
-    border: 1px solid rgba(15, 23, 42, 0.06);
-    box-shadow: 0 6px 22px rgba(15, 23, 42, 0.06);
+    background: var(--md-surface);
+    box-shadow: var(--md-elevation-1);
 }
 
 .login-panel__title {
-    color: #0f172a;
+    color: var(--md-on-surface);
     font-size: 16px;
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .login-panel__desc {
     margin-top: 6px;
-    color: #64748b;
+    color: var(--md-on-surface-variant);
     font-size: 12px;
     line-height: 1.5;
 }
@@ -433,13 +463,14 @@ onShow(() => {
 .filled-button {
     min-width: 88px;
     height: 38px;
-    padding: 0 14px;
-    border-radius: 14px;
+    padding: 0 16px;
+    border-radius: var(--md-radius-full);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     font-size: 13px;
-    font-weight: 700;
+    font-weight: 600;
+    flex-shrink: 0;
 }
 
 .workspace {
@@ -449,10 +480,9 @@ onShow(() => {
 
 .panel {
     padding: 12px;
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.96);
-    border: 1px solid rgba(15, 23, 42, 0.06);
-    box-shadow: 0 6px 22px rgba(15, 23, 42, 0.06);
+    border-radius: var(--md-radius-md);
+    background: var(--md-surface);
+    box-shadow: var(--md-elevation-1);
 }
 
 .panel__head,
@@ -464,15 +494,15 @@ onShow(() => {
 }
 
 .panel__title {
-    color: #0f172a;
+    color: var(--md-on-surface);
     font-size: 15px;
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .panel__empty {
     padding: 18px 10px 10px;
     text-align: center;
-    color: #94a3b8;
+    color: var(--md-on-surface-variant);
     font-size: 12px;
 }
 
@@ -489,14 +519,15 @@ onShow(() => {
 .resource-row,
 .support-card,
 .expiry-card {
-    border-radius: 14px;
-    background: #ffffff;
-    border: 1px solid rgba(15, 23, 42, 0.06);
-    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+    border-radius: var(--md-radius-sm);
+    background: var(--md-surface);
+    border: 1px solid var(--md-outline-variant);
 }
 
 .resource-row {
     padding: 12px;
+    cursor: pointer;
+    &:active { background: var(--md-surface-variant); }
 }
 
 .resource-row__top,
@@ -510,57 +541,46 @@ onShow(() => {
 .resource-row__title,
 .support-card__title,
 .expiry-card__title {
-    color: #0f172a;
+    color: var(--md-on-surface);
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .resource-row__meta,
 .support-card__meta,
 .expiry-card__meta {
     margin-top: 6px;
-    color: #64748b;
+    color: var(--md-on-surface-variant);
     font-size: 12px;
     line-height: 1.5;
 }
 
 .status-pill {
     flex-shrink: 0;
-    padding: 5px 10px;
-    border-radius: 999px;
-    background: #e0e7ff;
-    color: #4338ca;
+    padding: 3px 10px;
+    border-radius: var(--md-radius-full);
     font-size: 11px;
-    font-weight: 700;
+    font-weight: 600;
+    background: var(--md-secondary-container);
+    color: var(--md-on-secondary-container);
 }
 
-.status-pill--running {
-    background: #dcfce7;
-    color: #15803d;
-}
-
+.status-pill--running  { background: var(--status-running-bg);  color: var(--status-running-fg); }
 .status-pill--pending,
-.status-pill--warning {
-    background: #fef3c7;
-    color: #b45309;
-}
-
+.status-pill--warning  { background: var(--status-warning-bg);  color: var(--status-warning-fg); }
 .status-pill--expired,
-.status-pill--failed {
-    background: #fee2e2;
-    color: #b91c1c;
-}
-
-.status-pill--plain {
-    background: #e0e7ff;
-    color: #4338ca;
-}
+.status-pill--failed   { background: var(--status-expired-bg);  color: var(--status-expired-fg); }
+.status-pill--plain    { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
 
 .support-card {
     margin-top: 10px;
     padding: 12px;
-    background: linear-gradient(135deg, #f8fbff 0%, #eef3ff 100%);
+    background: var(--md-primary-container);
+    border-color: transparent;
 }
+
+.support-card__title { color: var(--md-on-primary-container); }
+.support-card__meta  { color: var(--md-on-primary-container); opacity: 0.78; }
 
 .support-actions {
     display: grid;
@@ -571,30 +591,37 @@ onShow(() => {
 
 .support-actions__button {
     height: 36px;
-    border-radius: 12px;
+    border-radius: var(--md-radius-full);
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #eff6ff;
-    color: #2563eb;
+    background: var(--md-surface);
+    color: var(--md-primary);
+    border: 1px solid var(--md-outline-variant);
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 600;
+    &:active { background: var(--md-surface-variant); }
 }
 
 .reminder-card {
     margin-top: 10px;
     padding-top: 10px;
-    border-top: 1px solid rgba(15, 23, 42, 0.06);
+    border-top: 1px solid var(--md-outline-variant);
 }
 
 .expiry-card {
     padding: 12px;
     margin-top: 10px;
+    background: var(--md-error-container);
+    border-color: transparent;
 }
+
+.expiry-card__title { color: var(--md-on-surface); }
+.expiry-card__meta  { color: var(--md-on-surface-variant); }
 
 .expiry-card__countdown {
     margin-top: 10px;
-    color: #ef4444;
+    color: var(--md-error);
     font-size: 18px;
     line-height: 1.1;
     font-weight: 700;
@@ -610,23 +637,19 @@ onShow(() => {
     min-width: 72px;
     height: 34px;
     padding: 0 12px;
-    border-radius: 12px;
+    border-radius: var(--md-radius-full);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: #eff6ff;
-    color: #2563eb;
+    background: var(--md-surface);
+    color: var(--md-primary);
+    border: 1px solid var(--md-outline-variant);
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 600;
 }
 
 @media (max-width: 560px) {
-    .login-panel {
-        display: block;
-    }
-
-    .filled-button {
-        margin-top: 10px;
-    }
+    .login-panel { display: block; }
+    .filled-button { margin-top: 10px; }
 }
 </style>
