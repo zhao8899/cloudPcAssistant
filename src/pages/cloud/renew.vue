@@ -1,7 +1,7 @@
 <template>
     <view class="page" v-if="pageReady">
         <view class="nav">
-            <view class="nav__back" @click="back">&lt;</view>
+            <view class="nav__back" @click="back">‹</view>
             <view class="nav__title">{{ isDirectRenew ? '立即续期' : '续期申请' }}</view>
         </view>
 
@@ -245,51 +245,57 @@ onLoad(async (options) => {
 <style scoped lang="scss">
 .page {
     min-height: 100vh;
-    background: #f8fafc;
-    padding-bottom: 150rpx;
+    background: var(--md-background);
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 80px;
 }
 
 .nav {
     display: flex;
     align-items: center;
-    height: 110rpx;
-    padding: 0 28rpx;
-    color: #fff;
-    background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
-    border-bottom-left-radius: 28rpx;
-    border-bottom-right-radius: 28rpx;
+    height: 56px;
+    padding: 0 4px 0 8px;
+    background: var(--md-surface);
+    border-bottom: 1px solid var(--md-outline-variant);
+    flex-shrink: 0;
 }
 
 .nav__back {
-    width: 60rpx;
-    font-size: 36rpx;
-    font-weight: 700;
+    width: 40px;
+    font-size: 28px;
+    color: var(--md-on-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 }
 
 .nav__title {
     flex: 1;
     text-align: center;
-    margin-right: 60rpx;
-    font-size: 30rpx;
-    font-weight: 900;
+    margin-right: 40px;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--md-on-surface);
 }
 
 .card {
-    margin: 28rpx;
-    padding: 28rpx;
-    border-radius: 30rpx;
-    background: #fff;
-    box-shadow: 0 16rpx 40rpx rgba(15, 23, 42, 0.05);
+    margin: 12px 14px 0;
+    padding: 14px;
+    border-radius: var(--md-radius-md);
+    background: var(--md-surface);
+    box-shadow: var(--md-elevation-1);
 }
 
 .row {
     display: flex;
     justify-content: space-between;
-    gap: 24rpx;
-    padding: 18rpx 0;
-    border-bottom: 1rpx solid #f1f5f9;
-    font-size: 22rpx;
-    color: #334155;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--md-outline-variant);
+    font-size: 13px;
+    color: var(--md-on-surface);
 }
 
 .row:last-child {
@@ -297,105 +303,107 @@ onLoad(async (options) => {
 }
 
 .highlight {
-    color: #2563eb;
-    font-weight: 900;
+    color: var(--md-primary);
+    font-weight: 500;
 }
 
 .picker-title {
-    color: #475569;
-    font-size: 22rpx;
-    font-weight: 800;
+    color: var(--md-on-surface-variant);
+    font-size: 13px;
+    font-weight: 500;
 }
 
 .picker-section + .picker-section {
-    margin-top: 28rpx;
+    margin-top: 14px;
 }
 
 .picker-section--divider {
-    padding-top: 28rpx;
-    border-top: 1rpx solid #eef2f7;
+    padding-top: 14px;
+    border-top: 1px solid var(--md-outline-variant);
 }
 
 .picker-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 20rpx;
+    gap: 10px;
 }
 
 .picker-value {
-    padding: 10rpx 18rpx;
-    border-radius: 999rpx;
-    background: #eff6ff;
-    color: #2563eb;
-    font-size: 20rpx;
-    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: var(--md-radius-full);
+    background: var(--md-primary-container);
+    color: var(--md-primary);
+    font-size: 12px;
+    font-weight: 500;
 }
 
 .switch-group {
     display: flex;
-    gap: 16rpx;
-    margin-top: 16rpx;
+    gap: 8px;
+    margin-top: 10px;
 }
 
 .switch-item {
     flex: 1;
-    min-height: 108rpx;
-    padding: 18rpx 20rpx;
-    border-radius: 20rpx;
-    background: #f1f5f9;
-    color: #64748b;
+    min-height: 56px;
+    padding: 10px;
+    border-radius: var(--md-radius-sm);
+    background: var(--md-surface-variant);
+    color: var(--md-on-surface-variant);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
     box-sizing: border-box;
-    border: 2rpx solid transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
 }
 
 .switch-item.is-active {
-    background: #eff6ff;
-    color: #2563eb;
-    border-color: #93c5fd;
+    background: var(--md-primary-container);
+    color: var(--md-primary);
+    border-color: var(--md-primary);
 }
 
 .switch-item__label {
-    font-size: 24rpx;
-    font-weight: 800;
+    font-size: 14px;
+    font-weight: 500;
 }
 
 .switch-item__desc {
-    margin-top: 8rpx;
-    font-size: 18rpx;
-    color: #94a3b8;
+    margin-top: 4px;
+    font-size: 11px;
+    color: var(--md-on-surface-variant);
 }
 
 .switch-item.is-active .switch-item__desc {
-    color: #3b82f6;
+    color: var(--md-primary);
 }
 
 .count-group {
     display: grid;
-    grid-template-columns: 96rpx minmax(0, 1fr) 96rpx;
+    grid-template-columns: 48px minmax(0, 1fr) 48px;
     align-items: center;
-    gap: 18rpx;
-    margin-top: 18rpx;
+    gap: 10px;
+    margin-top: 10px;
 }
 
 .count-btn,
 .count-value {
-    height: 76rpx;
-    border-radius: 20rpx;
+    height: 40px;
+    border-radius: var(--md-radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 900;
+    font-weight: 500;
+    cursor: pointer;
 }
 
 .count-btn {
-    background: #f1f5f9;
-    color: #334155;
-    font-size: 34rpx;
+    background: var(--md-surface-variant);
+    color: var(--md-on-surface);
+    font-size: 20px;
 }
 
 .count-btn.is-disabled {
@@ -403,65 +411,65 @@ onLoad(async (options) => {
 }
 
 .count-value {
-    min-height: 92rpx;
-    padding: 0 24rpx;
-    background: #eff6ff;
-    color: #2563eb;
+    min-height: 48px;
+    padding: 0 12px;
+    background: var(--md-primary-container);
+    color: var(--md-primary);
     display: flex;
     flex-direction: column;
-    gap: 6rpx;
+    gap: 2px;
 }
 
 .count-value__num {
-    font-size: 34rpx;
+    font-size: 20px;
     line-height: 1;
-    font-weight: 900;
+    font-weight: 500;
 }
 
 .count-value__unit {
-    font-size: 18rpx;
-    color: #3b82f6;
+    font-size: 11px;
+    color: var(--md-primary);
 }
 
 .count-hint {
-    margin-top: 16rpx;
+    margin-top: 8px;
     text-align: center;
-    color: #64748b;
-    font-size: 20rpx;
+    color: var(--md-on-surface-variant);
+    font-size: 12px;
 }
 
 .tip {
-    margin: 0 28rpx;
-    padding: 24rpx;
-    border-radius: 22rpx;
-    background: #fffbeb;
-    border: 1rpx solid #fde68a;
+    margin: 12px 14px 0;
+    padding: 14px;
+    border-radius: var(--md-radius-md);
+    background: var(--status-warning-bg);
+    border: 1px solid var(--status-warning-fg);
 }
 
 .tip__title {
-    color: #92400e;
-    font-size: 22rpx;
-    font-weight: 900;
+    color: var(--status-warning-fg);
+    font-size: 13px;
+    font-weight: 500;
 }
 
 .tip__text,
 .tip__warn,
 .tip__error {
-    margin-top: 10rpx;
-    font-size: 20rpx;
+    margin-top: 6px;
+    font-size: 12px;
     line-height: 1.7;
 }
 
 .tip__text {
-    color: #b45309;
+    color: var(--status-warning-fg);
 }
 
 .tip__warn {
-    color: #d97706;
+    color: var(--status-warning-fg);
 }
 
 .tip__error {
-    color: #dc2626;
+    color: var(--md-error);
 }
 
 .footer {
@@ -470,31 +478,32 @@ onLoad(async (options) => {
     right: 0;
     bottom: 0;
     display: flex;
-    gap: 16rpx;
-    padding: 20rpx 28rpx calc(20rpx + env(safe-area-inset-bottom));
-    background: rgba(255, 255, 255, 0.96);
-    box-shadow: 0 -12rpx 30rpx rgba(15, 23, 42, 0.06);
+    gap: 10px;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    background: var(--md-surface);
+    border-top: 1px solid var(--md-outline-variant);
 }
 
 .footer__ghost,
 .footer__primary {
     flex: 1;
-    height: 84rpx;
-    line-height: 84rpx;
+    height: 40px;
+    line-height: 40px;
     text-align: center;
-    border-radius: 22rpx;
-    font-size: 24rpx;
-    font-weight: 900;
+    border-radius: var(--md-radius-full);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
 }
 
 .footer__ghost {
-    background: #f1f5f9;
-    color: #475569;
+    background: var(--md-surface-variant);
+    color: var(--md-on-surface-variant);
 }
 
 .footer__primary {
-    background: #2563eb;
-    color: #fff;
+    background: var(--md-primary);
+    color: var(--md-on-primary);
 }
 
 .footer__primary.is-disabled {
