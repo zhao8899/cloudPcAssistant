@@ -7,64 +7,43 @@
         />
         <!-- #endif -->
     </page-meta>
-    <view
-        class="register bg-white min-h-full flex flex-col items-center px-[40rpx] pt-[100rpx] box-border"
-    >
-        <view class="w-full">
-            <view class="text-2xl font-medium mb-[60rpx]">忘记登录密码</view>
-            <u-form borderBottom :label-width="150">
-                <u-form-item label="手机号" borderBottom>
-                    <u-input
-                        class="flex-1"
-                        v-model="formData.mobile"
-                        :border="false"
-                        placeholder="请输入手机号码"
-                    />
-                </u-form-item>
-                <u-form-item label="验证码" borderBottom>
-                    <u-input
-                        class="flex-1"
-                        v-model="formData.code"
-                        placeholder="请输入验证码"
-                        :border="false"
-                    />
-                    <view
-                        class="border-l border-solid border-0 border-light pl-3 text-muted leading-4 ml-3 w-[180rpx]"
-                        @click="sendSms"
-                    >
-                        <u-verification-code
-                            ref="uCodeRef"
-                            :seconds="60"
-                            @change="codeChange"
-                            change-text="x秒"
-                        />
-                        <text :class="formData.mobile ? 'text-primary' : 'text-muted'">
-                            {{ codeTips }}
-                        </text>
-                    </view>
-                </u-form-item>
-                <u-form-item label="新密码" borderBottom>
-                    <u-input
-                        class="flex-1"
-                        type="password"
-                        v-model="formData.password"
-                        placeholder="6-20位数字+字母或符号组合"
-                        :border="false"
-                    />
-                </u-form-item>
-                <u-form-item label="确认密码" borderBottom>
-                    <u-input
-                        class="flex-1"
-                        type="password"
-                        v-model="formData.password_confirm"
-                        placeholder="再次输入新密码"
-                        :border="false"
-                    />
-                </u-form-item>
-            </u-form>
-            <view class="mt-[100rpx]">
-                <u-button type="primary" shape="circle" @click="handleConfirm"> 确定 </u-button>
+    <view class="page">
+        <view class="form">
+            <view class="form__title">忘记登录密码</view>
+
+            <view class="field">
+                <view class="field__label">手机号</view>
+                <view class="field__row">
+                    <u-input v-model="formData.mobile" :border="false" placeholder="请输入手机号码" class="field__input" />
+                </view>
             </view>
+
+            <view class="field">
+                <view class="field__label">验证码</view>
+                <view class="field__row">
+                    <u-input v-model="formData.code" :border="false" placeholder="请输入验证码" class="field__input" />
+                    <view class="field__sms-btn" :class="{ 'is-active': formData.mobile }" @click="sendSms">
+                        <u-verification-code ref="uCodeRef" :seconds="60" @change="codeChange" change-text="x秒" />
+                        <text>{{ codeTips }}</text>
+                    </view>
+                </view>
+            </view>
+
+            <view class="field">
+                <view class="field__label">新密码</view>
+                <view class="field__row">
+                    <u-input type="password" v-model="formData.password" :border="false" placeholder="6-20位数字+字母或符号组合" class="field__input" />
+                </view>
+            </view>
+
+            <view class="field">
+                <view class="field__label">确认密码</view>
+                <view class="field__row">
+                    <u-input type="password" v-model="formData.password_confirm" :border="false" placeholder="再次输入新密码" class="field__input" />
+                </view>
+            </view>
+
+            <view class="submit" @click="handleConfirm">确定</view>
         </view>
     </view>
 </template>
@@ -115,5 +94,67 @@ const handleConfirm = async () => {
 <style lang="scss">
 page {
     height: 100%;
+}
+</style>
+
+<style scoped lang="scss">
+.page {
+    min-height: 100vh;
+    background: var(--md-surface);
+    padding: 40px 20px 0;
+    box-sizing: border-box;
+}
+
+.form__title {
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--md-on-surface);
+    margin-bottom: 28px;
+}
+
+.field {
+    margin-bottom: 16px;
+}
+
+.field__label {
+    font-size: 12px;
+    color: var(--md-on-surface-variant);
+    margin-bottom: 4px;
+}
+
+.field__row {
+    display: flex;
+    align-items: center;
+    height: 48px;
+    padding: 0 12px;
+    border: 1px solid var(--md-outline-variant);
+    border-radius: var(--md-radius-sm);
+    background: var(--md-background);
+}
+
+.field__sms-btn {
+    border-left: 1px solid var(--md-outline-variant);
+    padding-left: 12px;
+    margin-left: 8px;
+    white-space: nowrap;
+    font-size: 13px;
+    color: var(--md-on-surface-variant);
+    cursor: pointer;
+    &.is-active {
+        color: var(--md-primary);
+    }
+}
+
+.submit {
+    margin-top: 28px;
+    height: 48px;
+    line-height: 48px;
+    text-align: center;
+    border-radius: var(--md-radius-full);
+    background: var(--md-primary);
+    color: var(--md-on-primary);
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
 }
 </style>
