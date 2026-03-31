@@ -13,28 +13,14 @@
             <u-empty text="订单不存在" mode="order"></u-empty>
         </template>
         <template #default>
-            <view class="payment-result p-[20rpx]">
-                <view class="result bg-white p-[20rpx] rounded-md">
-                    <view class="flex flex-col items-center my-[40rpx]">
-                        <!-- 支付状态图片 -->
-                        <u-image
-                            class="status-image"
-                            :src="paymentStatus['image']"
-                            width="100"
-                            height="100"
-                            shape="circle"
-                        />
-                        <!-- 支付状态文字 -->
-                        <text class="text-2xl font-medium mt-[20rpx]">{{
-                                paymentStatus['text']
-                            }}
-                        </text>
-                        <view class="text-3xl font-medium mt-[20rpx]">
-                            ¥ {{ orderInfo.order.order_amount }}
-                        </view>
+            <view class="page">
+                <view class="result-card">
+                    <view class="result-card__status">
+                        <u-image :src="paymentStatus['image']" width="80" height="80" shape="circle" />
+                        <text class="result-card__text">{{ paymentStatus['text'] }}</text>
+                        <view class="result-card__amount">¥ {{ orderInfo.order.order_amount }}</view>
                     </view>
 
-                    <!-- 支付信息 -->
                     <view class="result-info">
                         <view class="result-info__item">
                             <text>订单编号</text>
@@ -46,38 +32,15 @@
                         </view>
                         <view class="result-info__item">
                             <text>支付方式</text>
-                            <template v-if="orderInfo.pay_status">
-                                <text>{{ orderInfo.order.pay_way || '-' }}</text>
-                            </template>
-                            <template v-else>
-                                <text>未支付</text>
-                            </template>
+                            <text v-if="orderInfo.pay_status">{{ orderInfo.order.pay_way || '-' }}</text>
+                            <text v-else>未支付</text>
                         </view>
                     </view>
                 </view>
-                <view class="mt-[40rpx]">
-                    <view class="mb-[20rpx]">
-                        <u-button
-                            v-if="pageOptions.from == 'recharge'"
-                            type="primary"
-                            shape="circle"
-                            hover-class="none"
-                            @click="goOrder"
-                        >
-                            继续充值
-                        </u-button>
-                    </view>
-                    <view class="mb-[20rpx]">
-                        <u-button
-                            type="primary"
-                            plain
-                            shape="circle"
-                            hover-class="none"
-                            @click="goHome"
-                        >
-                            返回首页
-                        </u-button>
-                    </view>
+
+                <view class="actions">
+                    <view v-if="pageOptions.from == 'recharge'" class="action-btn action-btn--outline" @click="goOrder">继续充值</view>
+                    <view class="action-btn action-btn--primary" @click="goHome">返回首页</view>
                 </view>
             </view>
         </template>
@@ -160,11 +123,82 @@ onLoad(async (options: any) => {
 </script>
 
 <style lang="scss" scoped>
+.page {
+    min-height: 100vh;
+    background: var(--md-background);
+    padding: 14px;
+    box-sizing: border-box;
+}
+
+.result-card {
+    padding: 20px;
+    border-radius: var(--md-radius-md);
+    background: var(--md-surface);
+    box-shadow: var(--md-elevation-1);
+}
+
+.result-card__status {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 0;
+}
+
+.result-card__text {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--md-on-surface);
+    margin-top: 10px;
+}
+
+.result-card__amount {
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--md-primary);
+    margin-top: 8px;
+}
+
 .result-info {
-    .result-info__item {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 20rpx;
-    }
+    margin-top: 16px;
+    border-top: 1px solid var(--md-outline-variant);
+    padding-top: 12px;
+}
+
+.result-info__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 13px;
+    color: var(--md-on-surface);
+    border-bottom: 1px solid var(--md-outline-variant);
+    &:last-child { border-bottom: none; }
+}
+
+.actions {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.action-btn {
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    border-radius: var(--md-radius-full);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.action-btn--primary {
+    background: var(--md-primary);
+    color: var(--md-on-primary);
+}
+
+.action-btn--outline {
+    border: 1px solid var(--md-primary);
+    color: var(--md-primary);
 }
 </style>
