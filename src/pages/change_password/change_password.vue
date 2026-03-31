@@ -7,45 +7,32 @@
         />
         <!-- #endif -->
     </page-meta>
-    <view
-        class="register bg-white min-h-full flex flex-col items-center px-[40rpx] pt-[100rpx] box-border"
-    >
-        <view class="w-full">
-            <view class="text-2xl font-medium mb-[60rpx]">
-                {{ type == 'set' ? '设置登录密码' : '修改登录密码' }}
+    <view class="page">
+        <view class="form">
+            <view class="form__title">{{ type == 'set' ? '设置登录密码' : '修改登录密码' }}</view>
+
+            <view class="field" v-if="type != 'set'">
+                <view class="field__label">原密码</view>
+                <view class="field__row">
+                    <u-input type="password" v-model="formData.old_password" :border="false" placeholder="请输入原来的密码" class="field__input" />
+                </view>
             </view>
-            <u-form borderBottom :label-width="150">
-                <u-form-item label="原密码" borderBottom v-if="type != 'set'">
-                    <u-input
-                        class="flex-1"
-                        type="password"
-                        v-model="formData.old_password"
-                        :border="false"
-                        placeholder="请输入原来的密码"
-                    />
-                </u-form-item>
-                <u-form-item label="新密码" borderBottom>
-                    <u-input
-                        class="flex-1"
-                        type="password"
-                        v-model="formData.password"
-                        placeholder="6-20位数字+字母或符号组合"
-                        :border="false"
-                    />
-                </u-form-item>
-                <u-form-item label="确认密码" borderBottom>
-                    <u-input
-                        class="flex-1"
-                        type="password"
-                        v-model="formData.password_confirm"
-                        placeholder="再次输入新密码"
-                        :border="false"
-                    />
-                </u-form-item>
-            </u-form>
-            <view class="mt-[100rpx]">
-                <u-button type="primary" shape="circle" @click="handleConfirm"> 确定 </u-button>
+
+            <view class="field">
+                <view class="field__label">新密码</view>
+                <view class="field__row">
+                    <u-input type="password" v-model="formData.password" :border="false" placeholder="6-20位数字+字母或符号组合" class="field__input" />
+                </view>
             </view>
+
+            <view class="field">
+                <view class="field__label">确认密码</view>
+                <view class="field__row">
+                    <u-input type="password" v-model="formData.password_confirm" :border="false" placeholder="再次输入新密码" class="field__input" />
+                </view>
+            </view>
+
+            <view class="submit" @click="handleConfirm">确定</view>
         </view>
     </view>
 </template>
@@ -84,7 +71,54 @@ onLoad((options) => {
 </script>
 
 <style lang="scss">
-page {
-    height: 100%;
+page { height: 100%; }
+</style>
+
+<style scoped lang="scss">
+.page {
+    min-height: 100vh;
+    background: var(--md-surface);
+    padding: 40px 20px 0;
+    box-sizing: border-box;
+}
+
+.form__title {
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--md-on-surface);
+    margin-bottom: 28px;
+}
+
+.field {
+    margin-bottom: 16px;
+}
+
+.field__label {
+    font-size: 12px;
+    color: var(--md-on-surface-variant);
+    margin-bottom: 4px;
+}
+
+.field__row {
+    display: flex;
+    align-items: center;
+    height: 48px;
+    padding: 0 12px;
+    border: 1px solid var(--md-outline-variant);
+    border-radius: var(--md-radius-sm);
+    background: var(--md-background);
+}
+
+.submit {
+    margin-top: 28px;
+    height: 48px;
+    line-height: 48px;
+    text-align: center;
+    border-radius: var(--md-radius-full);
+    background: var(--md-primary);
+    color: var(--md-on-primary);
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
 }
 </style>
