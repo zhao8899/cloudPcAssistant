@@ -1,5 +1,5 @@
 <template>
-    <view class="p-[30rpx]">
+    <view class="agreement-page">
         <u-parse :html="agreementContent"></u-parse>
     </view>
 </template>
@@ -28,4 +28,14 @@ onLoad((options: any) => {
 })
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.agreement-page {
+    min-height: 100vh;
+    background: var(--md-surface);
+    padding: 16px;
+    color: var(--md-on-surface);
+    font-size: 14px;
+    line-height: 1.8;
+    box-sizing: border-box;
+}
+</style>

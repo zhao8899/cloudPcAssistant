@@ -7,9 +7,9 @@
         />
         <!-- #endif -->
     </page-meta>
-    <view class="as-us flex flex-1 flex-col items-center">
-        <image :src="appStore.getWebsiteConfig.shop_logo" mode="" class="img"></image>
-        <view class="text-content mt-[20rpx]">当前版本{{ appStore.config.version }}</view>
+    <view class="page">
+        <image :src="appStore.getWebsiteConfig.shop_logo" mode="" class="logo"></image>
+        <view class="version">当前版本{{ appStore.config.version }}</view>
     </view>
 </template>
 
@@ -19,12 +19,24 @@ const appStore = useAppStore()
 </script>
 
 <style lang="scss" scoped>
-.as-us {
-    .img {
-        width: 160rpx;
-        height: 160rpx;
-        border-radius: 20rpx;
-        margin-top: 96rpx;
-    }
+.page {
+    min-height: 100vh;
+    background: var(--md-background);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo {
+    width: 80px;
+    height: 80px;
+    border-radius: var(--md-radius-sm);
+    margin-top: 48px;
+}
+
+.version {
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--md-on-surface-variant);
 }
 </style>
