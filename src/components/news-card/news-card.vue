@@ -1,23 +1,15 @@
 <template>
-    <navigator :url="`/pages/news_detail/news_detail?id=${newsId}`">
-        <view class="news-card flex bg-white px-[20rpx] py-[32rpx]">
-            <view class="mr-[20rpx]" v-if="item.image">
-                <u-image :src="item.image" width="240" height="180"></u-image>
-            </view>
-            <view class="news-card-content flex flex-col justify-between flex-1">
-                <view class="news-card-content-title text-base">{{ item.title }}</view>
-                <view class="news-card-content-intro text-gray-400 text-sm mt-[16rpx]">
-                    {{ item.desc }}
-                </view>
-
-                <view class="text-muted text-xs w-full flex justify-between mt-[12rpx]">
-                    <view>{{ item.create_time }}</view>
-                    <view class="flex items-center">
-                        <image
-                            src="/static/images/icon/icon_visit.png"
-                            class="w-[30rpx] h-[30rpx]"
-                        ></image>
-                        <view class="ml-[10rpx]">{{ item.click }}</view>
+    <navigator :url="`/pages/news_detail/news_detail?id=${newsId}`" hover-class="none">
+        <view class="news-card">
+            <u-image v-if="item.image" :src="item.image" width="90" height="68" class="news-card__thumb" />
+            <view class="news-card__body">
+                <view class="news-card__title">{{ item.title }}</view>
+                <view class="news-card__desc">{{ item.desc }}</view>
+                <view class="news-card__meta">
+                    <text>{{ item.create_time }}</text>
+                    <view class="news-card__views">
+                        <image src="/static/images/icon/icon_visit.png" class="news-card__views-icon" />
+                        <text>{{ item.click }}</text>
                     </view>
                 </view>
             </view>
@@ -40,24 +32,71 @@ const props = withDefaults(
 
 <style lang="scss" scoped>
 .news-card {
-    border-bottom: 1px solid #f8f8f8;
-    &-content {
-        &-title {
-            -webkit-line-clamp: 2;
-            overflow: hidden;
-            word-break: break-all;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-        }
-        &-intro {
-            -webkit-line-clamp: 1;
-            overflow: hidden;
-            word-break: break-all;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-        }
-    }
+    display: flex;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--md-surface);
+    border-bottom: 1px solid var(--md-outline-variant);
+    cursor: pointer;
+    &:active { background: var(--md-surface-variant); }
+}
+
+.news-card__thumb {
+    flex-shrink: 0;
+    border-radius: var(--md-radius-sm);
+    overflow: hidden;
+}
+
+.news-card__body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 4px;
+}
+
+.news-card__title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--md-on-surface);
+    line-height: 1.4;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    word-break: break-all;
+}
+
+.news-card__desc {
+    font-size: 13px;
+    color: var(--md-on-surface-variant);
+    line-height: 1.4;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    word-break: break-all;
+}
+
+.news-card__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--md-on-surface-variant);
+    margin-top: 2px;
+}
+
+.news-card__views {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.news-card__views-icon {
+    width: 14px;
+    height: 14px;
+    opacity: 0.6;
 }
 </style>

@@ -49,23 +49,27 @@ onLoad(() => {
 <style lang="scss">
 .news {
     min-height: 100vh;
-    padding-bottom: 118rpx;
-    background: #f6f8fc;
+    display: flex;
+    flex-direction: column;
+    background: var(--md-background);
 
     &__header {
-        padding: 64rpx 24rpx 20rpx;
+        padding: 20px 16px 12px;
+        background: var(--md-surface);
+        border-bottom: 1px solid var(--md-outline-variant);
+        flex-shrink: 0;
     }
 
     &__title {
-        font-size: 40rpx;
+        font-size: 22px;
         line-height: 1.2;
-        font-weight: 900;
-        color: #0f172a;
+        font-weight: 500;
+        color: var(--md-primary);
     }
 
     &-list {
-        height: calc(100vh - 252rpx);
-        padding-top: 20rpx;
+        flex: 1;
+        padding-top: 8px;
     }
 }
 </style>
