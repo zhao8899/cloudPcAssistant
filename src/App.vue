@@ -22,4 +22,6 @@ onLaunch(async (options) => {
 </script>
 
 <style lang="scss">
+@import './styles/var.css';
+@import './styles/typography.css';
 </style>
