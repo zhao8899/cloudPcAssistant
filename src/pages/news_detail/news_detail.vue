@@ -7,42 +7,35 @@
         />
         <!-- #endif -->
     </page-meta>
-    <view class="news-detail bg-white">
-        <!-- 标题信心 -->
-        <view class="news-detail-header py-[20rpx] px-[30rpx]">
-            <view class="text-3xl font-medium">{{ newsData.title }}</view>
-            <view class="flex mt-[20rpx] text-xs">
-                <view class="mr-[40rpx]" v-if="newsData.author">作者: {{ newsData.author }}</view>
-                <view class="text-muted mr-[40rpx] flex-1">{{ newsData.create_time }}</view>
-                <view class="flex items-center text-muted flex-none">
-                    <image
-                        src="/static/images/icon/icon_visit.png"
-                        class="w-[30rpx] h-[30rpx]"
-                    ></image>
-                    <view class="ml-[10rpx]">{{ newsData.click }}</view>
+    <view class="page">
+        <view class="header">
+            <view class="header__title">{{ newsData.title }}</view>
+            <view class="header__meta">
+                <view v-if="newsData.author">作者: {{ newsData.author }}</view>
+                <view class="header__time">{{ newsData.create_time }}</view>
+                <view class="header__views">
+                    <image src="/static/images/icon/icon_visit.png" class="header__views-icon" />
+                    <view>{{ newsData.click }}</view>
                 </view>
             </view>
         </view>
 
-        <!-- 咨询内容 -->
-        <view class="news-detail-section bg-white p-[24rpx]">
-            <!-- 摘要 -->
-            <view class="summary p-[20rpx] text-base" v-if="newsData.abstract">
-                <text class="font-medium">摘要: </text> {{ newsData.abstract }}
+        <view class="content">
+            <view class="summary" v-if="newsData.abstract">
+                <text class="summary__label">摘要: </text>{{ newsData.abstract }}
             </view>
-            <!-- 内容 -->
-            <view class="mt-[20rpx]">
+            <view class="body">
                 <u-parse :html="newsData.content"></u-parse>
             </view>
         </view>
 
-        <view class="panel-btn flex items-center px-[34rpx]" @click="handleAddCollect(newsData.id)">
+        <view class="collect-btn" @click="handleAddCollect(newsData.id)">
             <u-icon
                 :name="newsData.collect ? 'star-fill' : 'star'"
-                size="40"
-                :color="newsData.collect ? '#F7BA47' : '#333'"
+                size="20"
+                :color="newsData.collect ? '#F7BA47' : 'var(--md-on-surface-variant)'"
             ></u-icon>
-            <text class="ml-[10rpx]">收藏</text>
+            <text>收藏</text>
         </view>
     </view>
 </template>
@@ -81,28 +74,87 @@ onLoad((options: any) => {
 </script>
 
 <style lang="scss">
-.news-detail {
-    height: 100%;
+.page {
+    min-height: 100vh;
+    background: var(--md-surface);
+}
 
-    &-header {
-        border-bottom: 2rpx solid #f8f8f8;
-    }
+.header {
+    padding: 16px;
+    border-bottom: 1px solid var(--md-outline-variant);
+}
 
-    &-section {
-        .summary {
-            border-radius: 12rpx;
-            background-color: #f7f7f7;
-        }
-    }
+.header__title {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--md-on-surface);
+    line-height: 1.4;
+}
 
-    .panel-btn {
-        position: fixed;
-        right: 30rpx;
-        height: 80rpx;
-        bottom: 80rpx;
-        border-radius: 40rpx;
-        background: rgba(255, 255, 255, 0.95);
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.16);
-    }
+.header__meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--md-on-surface-variant);
+}
+
+.header__time {
+    flex: 1;
+}
+
+.header__views {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.header__views-icon {
+    width: 14px;
+    height: 14px;
+    opacity: 0.6;
+}
+
+.content {
+    padding: 16px;
+}
+
+.summary {
+    padding: 12px;
+    border-radius: var(--md-radius-sm);
+    background: var(--md-primary-container);
+    color: var(--md-on-primary-container);
+    font-size: 13px;
+    line-height: 1.7;
+    margin-bottom: 16px;
+}
+
+.summary__label {
+    font-weight: 500;
+}
+
+.body {
+    font-size: 14px;
+    color: var(--md-on-surface);
+    line-height: 1.8;
+}
+
+.collect-btn {
+    position: fixed;
+    right: 16px;
+    bottom: 60px;
+    height: 40px;
+    padding: 0 14px;
+    border-radius: var(--md-radius-full);
+    background: var(--md-surface);
+    border: 1px solid var(--md-outline-variant);
+    box-shadow: var(--md-elevation-1);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--md-on-surface-variant);
+    cursor: pointer;
 }
 </style>

@@ -36,7 +36,7 @@ import { getCloudHomeData } from '@/api/cloud'
 import { useUserStore } from '@/stores/user'
 import { hideDesktopReminderWindow, isDesktopClient, openDesktopRoute } from '@/utils/desktop'
 import { onHide, onShow, onUnload } from '@dcloudio/uni-app'
-import { computed, reactive } from 'vue'
+import { computed, reactive, ref } from 'vue'
 
 type CloudResourceItem = {
     id?: number | string
@@ -57,6 +57,7 @@ const state = reactive({
 
 const isLogin = computed(() => userStore.isLogin)
 const currentResource = computed(() => state.items[0] || null)
+const nowSeconds = ref(Math.floor(Date.now() / 1000))
 const countdownText = computed(() => {
     const item = currentResource.value
     if (!item) return '暂无提醒'
@@ -64,7 +65,7 @@ const countdownText = computed(() => {
     const expiredAt = Number(item.expired_at || 0)
     if (!expiredAt) return '暂无提醒'
 
-    const diff = expiredAt - Math.floor(Date.now() / 1000)
+    const diff = expiredAt - nowSeconds.value
     if (diff <= 0) return '已到期'
 
     const days = Math.floor(diff / 86400)
@@ -77,6 +78,7 @@ const countdownText = computed(() => {
 })
 
 let refreshTimer: ReturnType<typeof setInterval> | null = null
+let tickTimer: ReturnType<typeof setInterval> | null = null
 
 const go = (url: string, needLogin = false) => {
     if (needLogin && !isLogin.value) {
@@ -140,6 +142,10 @@ const clearRefreshTimer = () => {
         clearInterval(refreshTimer)
         refreshTimer = null
     }
+    if (tickTimer) {
+        clearInterval(tickTimer)
+        tickTimer = null
+    }
 }
 
 const startRefreshTimer = () => {
@@ -147,6 +153,9 @@ const startRefreshTimer = () => {
     refreshTimer = setInterval(() => {
         loadData()
     }, 60000)
+    tickTimer = setInterval(() => {
+        nowSeconds.value = Math.floor(Date.now() / 1000)
+    }, 1000)
 }
 
 const manualRefresh = () => {
@@ -182,10 +191,10 @@ onUnload(() => {
 .float-card {
     min-height: calc(100vh - 20px);
     padding: 16px;
-    border-radius: 22px;
-    background: rgba(255, 255, 255, 0.98);
-    border: 1px solid rgba(15, 23, 42, 0.08);
-    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.16);
+    border-radius: var(--md-radius-lg);
+    background: var(--md-surface);
+    border: 1px solid var(--md-outline-variant);
+    box-shadow: var(--md-elevation-1);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -199,62 +208,62 @@ onUnload(() => {
 }
 
 .float-card__eyebrow {
-    color: #2563eb;
+    color: var(--md-primary);
     font-size: 11px;
-    font-weight: 700;
+    font-weight: 500;
     letter-spacing: 0.08em;
 }
 
 .float-card__close {
     width: 28px;
     height: 28px;
-    border-radius: 10px;
+    border-radius: var(--md-radius-xs);
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #f1f5f9;
-    color: #475569;
+    background: var(--md-surface-variant);
+    color: var(--md-on-surface-variant);
     font-size: 18px;
-    font-weight: 700;
+    cursor: pointer;
 }
 
 .float-card__title {
     margin-top: 10px;
-    color: #0f172a;
+    color: var(--md-on-surface);
     font-size: 18px;
     line-height: 1.35;
-    font-weight: 700;
+    font-weight: 500;
 }
 
 .float-card__meta {
     margin-top: 12px;
-    color: #64748b;
+    color: var(--md-on-surface-variant);
     font-size: 12px;
     line-height: 1.6;
 }
 
 .float-card__countdown {
     margin-top: 18px;
-    color: #ef4444;
+    color: var(--status-expired-fg);
     font-size: 30px;
     line-height: 1;
-    font-weight: 700;
+    font-weight: 500;
 }
 
 .float-card__countdown--empty {
-    color: #16a34a;
+    color: #059669;
 }
 
 .float-card__status {
     margin-top: 10px;
     display: inline-flex;
     align-self: flex-start;
-    padding: 6px 10px;
-    border-radius: 999px;
-    background: #eff6ff;
-    color: #2563eb;
+    padding: 4px 10px;
+    border-radius: var(--md-radius-full);
+    background: var(--md-primary-container);
+    color: var(--md-primary);
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 500;
 }
 
 .float-card__actions {
@@ -266,18 +275,19 @@ onUnload(() => {
 
 .float-card__button {
     height: 38px;
-    border-radius: 14px;
+    border-radius: var(--md-radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #eff6ff;
-    color: #2563eb;
+    background: var(--md-primary-container);
+    color: var(--md-primary);
     font-size: 13px;
-    font-weight: 700;
+    font-weight: 500;
+    cursor: pointer;
 }
 
 .float-card__button--primary {
-    background: linear-gradient(135deg, #2563eb 0%, #635bff 100%);
-    color: #ffffff;
+    background: var(--md-primary);
+    color: var(--md-on-primary);
 }
 </style>
