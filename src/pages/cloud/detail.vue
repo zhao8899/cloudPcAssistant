@@ -1,7 +1,7 @@
 <template>
     <view class="page">
         <view class="nav">
-            <view class="nav__back" @click="back">&lt;</view>
+            <view class="nav__back" @click="back">‹</view>
             <view class="nav__title">云电脑详情</view>
         </view>
 
@@ -328,6 +328,8 @@ const handleDelete = async () => {
         return
     }
 
+    // Set loading before the modal to prevent duplicate taps during the confirmation dialog
+    actionState.loading = true
     const targetName =
         detailState.data.resource_name || detailState.data.cloud_resource_id || detailState.data.desktop_oid || id
     const modalRes = await uni.showModal({
@@ -336,9 +338,10 @@ const handleDelete = async () => {
         confirmText: '确定',
         cancelText: '取消'
     })
-    if (!modalRes.confirm) return
-
-    actionState.loading = true
+    if (!modalRes.confirm) {
+        actionState.loading = false
+        return
+    }
     uni.showLoading({
         title: '删除中...',
         mask: true
@@ -379,84 +382,85 @@ const copyText = (value: string, message = '已复制') => {
 <style scoped lang="scss">
 .page {
     min-height: 100vh;
-    background: #f8fafc;
-    padding-bottom: 40rpx;
+    display: flex;
+    flex-direction: column;
+    background: var(--md-background);
 }
 
 .nav {
     display: flex;
     align-items: center;
-    height: 110rpx;
-    padding: 0 28rpx;
-    color: #fff;
-    background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
-    border-bottom-left-radius: 28rpx;
-    border-bottom-right-radius: 28rpx;
+    height: 56px;
+    padding: 0 16px;
+    background: var(--md-surface);
+    border-bottom: 1px solid var(--md-outline-variant);
+    flex-shrink: 0;
 }
 
 .nav__back {
-    width: 60rpx;
-    font-size: 36rpx;
-    font-weight: 700;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: var(--md-on-surface);
+    border-radius: var(--md-radius-full);
+    cursor: pointer;
+    &:active { background: var(--md-surface-variant); }
 }
 
 .nav__title {
     flex: 1;
     text-align: center;
-    margin-right: 60rpx;
-    font-size: 30rpx;
-    font-weight: 900;
+    margin-right: 40px;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--md-primary);
 }
 
 .loading-card {
-    margin: 28rpx;
-    padding: 80rpx 28rpx;
-    border-radius: 28rpx;
-    background: #fff;
-    box-shadow: 0 16rpx 40rpx rgba(15, 23, 42, 0.05);
+    margin: 14px;
+    padding: 48px 16px;
+    border-radius: var(--md-radius-md);
+    background: var(--md-surface);
+    box-shadow: var(--md-elevation-1);
 }
 
 .loading-card__text {
     text-align: center;
-    color: #94a3b8;
-    font-size: 24rpx;
-    font-weight: 700;
+    color: var(--md-on-surface-variant);
+    font-size: 14px;
 }
 
-.hero,
-.panel {
-    margin: 28rpx;
-    padding: 28rpx;
-    border-radius: 28rpx;
-    background: #fff;
-    box-shadow: 0 16rpx 40rpx rgba(15, 23, 42, 0.05);
-}
-
+/* Hero — MD3 Filled Card */
 .hero {
-    background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
-    color: #fff;
+    margin: 14px 14px 0;
+    padding: 16px;
+    border-radius: var(--md-radius-md);
+    background: var(--md-primary-container);
+    color: var(--md-on-primary-container);
 }
 
 .hero__head {
     display: flex;
     justify-content: space-between;
-    gap: 20rpx;
+    gap: 12px;
 }
 
-.hero__main {
-    flex: 1;
-    min-width: 0;
-}
+.hero__main { flex: 1; min-width: 0; }
 
 .hero__name {
-    font-size: 32rpx;
-    font-weight: 900;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--md-on-primary-container);
 }
 
 .hero__id {
-    margin-top: 8rpx;
-    font-size: 18rpx;
-    opacity: 0.88;
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--md-on-primary-container);
+    opacity: 0.78;
     word-break: break-all;
 }
 
@@ -464,139 +468,132 @@ const copyText = (value: string, message = '已复制') => {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 10rpx;
+    gap: 4px;
 }
 
 .hero__tag {
-    padding: 10rpx 18rpx;
-    border-radius: 999rpx;
-    background: rgba(255, 255, 255, 0.18);
-    color: #fff;
-    font-size: 18rpx;
-    font-weight: 900;
+    padding: 3px 10px;
+    border-radius: var(--md-radius-full);
+    font-size: 11px;
+    font-weight: 500;
+    background: var(--md-secondary-container);
+    color: var(--md-on-secondary-container);
 }
 
-.hero__tag--sub {
-    font-size: 16rpx;
-}
-
-.hero__tag.is-success {
-    background: rgba(255, 255, 255, 0.24);
-}
-
-.hero__tag.is-pending {
-    background: rgba(255, 243, 205, 0.22);
-}
-
-.hero__tag.is-warning {
-    background: rgba(255, 243, 205, 0.22);
-}
-
-.hero__tag.is-failed {
-    background: rgba(255, 220, 220, 0.22);
-}
+.hero__tag.is-running  { background: var(--status-running-bg);  color: var(--status-running-fg); }
+.hero__tag.is-pending  { background: var(--status-warning-bg);  color: var(--status-warning-fg); }
+.hero__tag.is-warning  { background: var(--status-warning-bg);  color: var(--status-warning-fg); }
+.hero__tag.is-failed   { background: var(--status-expired-bg);  color: var(--status-expired-fg); }
+.hero__tag.is-success  { background: var(--status-running-bg);  color: var(--status-running-fg); }
+.hero__tag.is-plain    { background: var(--status-stopped-bg);  color: var(--status-stopped-fg); }
 
 .hero__spec {
-    margin-top: 20rpx;
-    padding: 18rpx 20rpx;
-    border-radius: 18rpx;
-    background: rgba(255, 255, 255, 0.12);
-    font-size: 22rpx;
-    font-weight: 800;
+    margin-top: 10px;
+    padding: 8px 12px;
+    border-radius: var(--md-radius-sm);
+    background: rgba(255, 255, 255, 0.35);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--md-on-primary-container);
 }
 
 .action-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 14rpx;
-    margin-top: 22rpx;
+    gap: 8px;
+    margin-top: 12px;
 }
 
 .action-btn {
-    flex: 1 1 160rpx;
-    height: 78rpx;
+    flex: 1 1 72px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 18rpx;
-    background: rgba(255, 255, 255, 0.14);
-    color: #fff;
-    font-size: 22rpx;
-    font-weight: 900;
+    border-radius: var(--md-radius-full);
+    background: var(--md-surface);
+    color: var(--md-primary);
+    border: 1px solid var(--md-outline-variant);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    &:active { background: var(--md-surface-variant); }
 }
 
-.action-btn.is-disabled {
-    opacity: 0.55;
-}
+.action-btn.is-disabled { opacity: 0.38; pointer-events: none; }
 
 .action-btn--primary {
-    background: #fff;
-    color: #2563eb;
+    background: var(--md-primary);
+    color: var(--md-on-primary);
+    border-color: transparent;
+    &:active { opacity: 0.88; }
 }
 
 .action-btn--danger {
-    background: rgba(248, 113, 113, 0.22);
+    background: var(--md-error-container);
+    color: var(--md-error);
+    border-color: transparent;
+}
+
+/* Info panels — MD3 Elevated Card */
+.panel {
+    margin: 10px 14px 0;
+    padding: 16px;
+    border-radius: var(--md-radius-md);
+    background: var(--md-surface);
+    box-shadow: var(--md-elevation-1);
+    &:last-of-type { margin-bottom: 14px; }
 }
 
 .section-title {
-    margin-bottom: 12rpx;
-    font-size: 28rpx;
-    color: #0f172a;
-    font-weight: 900;
+    margin-bottom: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--md-on-surface);
 }
 
 .info-row {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 24rpx;
-    padding: 18rpx 0;
-    border-bottom: 1rpx solid #f1f5f9;
-    font-size: 22rpx;
-    color: #334155;
-}
+    gap: 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--md-outline-variant);
+    font-size: 13px;
+    color: var(--md-on-surface);
 
-.info-row text:first-child {
-    color: #94a3b8;
-    white-space: nowrap;
-}
+    &:last-child { border-bottom: none; }
 
-.info-row text:last-child {
-    text-align: right;
-    word-break: break-all;
-}
+    text:first-child {
+        color: var(--md-on-surface-variant);
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
 
-.info-row:last-child {
-    border-bottom: none;
+    text:last-child {
+        text-align: right;
+        word-break: break-all;
+    }
 }
 
 .copy-value {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 12rpx;
+    gap: 8px;
     text-align: right;
     word-break: break-all;
+    min-width: 0;
 }
 
 .copy-btn {
     flex-shrink: 0;
-    padding: 8rpx 14rpx;
-    border-radius: 999rpx;
-    background: #eff6ff;
-    color: #2563eb;
-    font-size: 18rpx;
-    font-weight: 800;
-}
-
-.json-box {
-    padding: 20rpx;
-    border-radius: 18rpx;
-    background: #f8fafc;
-    color: #334155;
-    font-size: 18rpx;
-    line-height: 1.7;
-    white-space: pre-wrap;
-    word-break: break-all;
+    padding: 3px 10px;
+    border-radius: var(--md-radius-full);
+    background: var(--md-primary-container);
+    color: var(--md-primary);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
 }
 </style>
