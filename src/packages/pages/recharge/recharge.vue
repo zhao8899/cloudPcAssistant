@@ -7,32 +7,25 @@
         />
         <!-- #endif -->
     </page-meta>
-    <view class="recharge p-[20rpx]">
-        <view class="bg-white rounded-[14rpx] p-[40rpx]">
-            <view class="text-content">充值金额</view>
-            <view class="border-0 border-b border-solid border-light">
-                <input
-                    v-model="money"
-                    class="text-[60rpx] h-[60rpx] py-[24rpx]"
-                    placeholder="0.00"
-                    type="digit"
-                />
+    <view class="page">
+        <view class="amount-card">
+            <view class="amount-card__label">充值金额</view>
+            <view class="amount-card__input-row">
+                <input v-model="money" class="amount-card__input" placeholder="0.00" type="digit" />
             </view>
-            <view class="mt-[20rpx] text-xs text-muted">
-                当前可用余额
-                <text class="text-primary"> {{ wallet.user_money }}</text>
+            <view class="amount-card__hint">
+                当前可用余额 <text class="amount-card__balance">{{ wallet.user_money }}</text>
             </view>
         </view>
-        <view class="mt-[40rpx]">
-            <u-button :loading="isLock" type="primary" shape="circle" @click="rechargeLock">
-                立即充值
-            </u-button>
-        </view>
-        <view class="flex justify-center m-[60rpx]">
+
+        <view class="submit" :class="{ 'is-loading': isLock }" @click="rechargeLock">立即充值</view>
+
+        <view class="record-link">
             <navigator url="/packages/pages/recharge_record/recharge_record" hover-class="none">
-                <text class="text-content text-sm">充值记录</text>
+                <text class="record-link__text">充值记录</text>
             </navigator>
         </view>
+
         <payment
             v-model:show="payState.showPay"
             v-model:show-check="payState.showCheck"
@@ -107,3 +100,73 @@ onShow(() => {
     getWallet()
 })
 </script>
+
+<style scoped lang="scss">
+.page {
+    min-height: 100vh;
+    background: var(--md-background);
+    padding: 14px;
+    box-sizing: border-box;
+}
+
+.amount-card {
+    padding: 16px;
+    border-radius: var(--md-radius-md);
+    background: var(--md-surface);
+    box-shadow: var(--md-elevation-1);
+}
+
+.amount-card__label {
+    font-size: 13px;
+    color: var(--md-on-surface-variant);
+    margin-bottom: 8px;
+}
+
+.amount-card__input-row {
+    border-bottom: 1px solid var(--md-outline-variant);
+    padding-bottom: 8px;
+}
+
+.amount-card__input {
+    font-size: 28px;
+    height: 44px;
+    color: var(--md-on-surface);
+    width: 100%;
+}
+
+.amount-card__hint {
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--md-on-surface-variant);
+}
+
+.amount-card__balance {
+    color: var(--md-primary);
+}
+
+.submit {
+    margin-top: 20px;
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    border-radius: var(--md-radius-full);
+    background: var(--md-primary);
+    color: var(--md-on-primary);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    &.is-loading { opacity: 0.7; }
+}
+
+.record-link {
+    display: flex;
+    justify-content: center;
+    margin: 28px 0;
+}
+
+.record-link__text {
+    font-size: 13px;
+    color: var(--md-on-surface-variant);
+    text-decoration: underline;
+}
+</style>

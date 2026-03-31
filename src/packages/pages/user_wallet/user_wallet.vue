@@ -7,58 +7,27 @@
         />
         <!-- #endif -->
     </page-meta>
-    <z-paging
-        ref="paging"
-        v-model="dataList"
-        @query="queryList"
-        :show-loading-more-when-reload="true"
-    >
-        <view class="user-wallet">
-            <view class="p-[20rpx]">
-                <view
-                    class="bg-primary rounded-[14rpx] flex items-center justify-between pl-[44rpx] py-[54rpx] text-white"
-                >
-                    <view>
-                        <view class="text-sm">钱包余额</view>
-                        <view class="text-[60rpx]">{{ wallet.user_money }}</view>
-                    </view>
-                    <navigator
-                        v-if="wallet.status"
-                        url="/packages/pages/recharge/recharge"
-                        hover-class="none"
-                    >
-                        <view class="text-primary px-[30rpx] py-[15rpx] bg-white rounded-l-full">
-                            去充值
-                        </view>
-                    </navigator>
+    <z-paging ref="paging" v-model="dataList" @query="queryList" :show-loading-more-when-reload="true">
+        <view class="page">
+            <view class="wallet-card">
+                <view class="wallet-card__body">
+                    <view class="wallet-card__label">钱包余额</view>
+                    <view class="wallet-card__amount">{{ wallet.user_money }}</view>
                 </view>
+                <navigator v-if="wallet.status" url="/packages/pages/recharge/recharge" hover-class="none">
+                    <view class="wallet-card__btn">去充值</view>
+                </navigator>
             </view>
-            <u-tabs
-                :list="tabList"
-                :is-scroll="false"
-                v-model="current"
-                activeColor="var(--color-primary)"
-                @change="changeType"
-            ></u-tabs>
 
-            <view class="pt-2.5">
-                <view
-                    v-for="item in dataList"
-                    :key="item.id"
-                    class="bg-white border-solid border-b border-0 border-light px-[26rpx] py-[24rpx]"
-                >
-                    <view class="flex justify-between">
-                        <view class="mr-2">{{ item.type_desc }}</view>
-                        <view
-                            class="text-lg"
-                            :class="{
-                                'text-primary': item.action == 1
-                            }"
-                        >
-                            {{ item.change_amount_desc }}
-                        </view>
+            <u-tabs :list="tabList" :is-scroll="false" v-model="current" activeColor="var(--md-primary)" @change="changeType"></u-tabs>
+
+            <view class="log-list">
+                <view v-for="item in dataList" :key="item.id" class="log-item">
+                    <view class="log-item__row">
+                        <view class="log-item__desc">{{ item.type_desc }}</view>
+                        <view class="log-item__amount" :class="{ 'is-income': item.action == 1 }">{{ item.change_amount_desc }}</view>
                     </view>
-                    <view class="text-sm text-muted mr-1">{{ item.create_time }}</view>
+                    <view class="log-item__time">{{ item.create_time }}</view>
                 </view>
             </view>
         </view>
@@ -117,4 +86,76 @@ onShow(() => {
 })
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.page {
+    min-height: 100vh;
+    background: var(--md-background);
+}
+
+.wallet-card {
+    margin: 14px;
+    padding: 20px;
+    border-radius: var(--md-radius-md);
+    background: var(--md-primary);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.wallet-card__body {
+    color: var(--md-on-primary);
+}
+
+.wallet-card__label {
+    font-size: 13px;
+    opacity: 0.85;
+}
+
+.wallet-card__amount {
+    font-size: 32px;
+    font-weight: 500;
+    margin-top: 4px;
+}
+
+.wallet-card__btn {
+    padding: 8px 16px;
+    border-radius: var(--md-radius-full);
+    background: var(--md-on-primary);
+    color: var(--md-primary);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.log-list {
+    margin-top: 4px;
+}
+
+.log-item {
+    padding: 12px 16px;
+    background: var(--md-surface);
+    border-bottom: 1px solid var(--md-outline-variant);
+}
+
+.log-item__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.log-item__desc {
+    font-size: 14px;
+    color: var(--md-on-surface);
+}
+
+.log-item__amount {
+    font-size: 15px;
+    color: var(--md-on-surface);
+    &.is-income { color: var(--md-primary); }
+}
+
+.log-item__time {
+    font-size: 12px;
+    color: var(--md-on-surface-variant);
+    margin-top: 2px;
+}
+</style>
