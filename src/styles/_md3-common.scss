@@ -1,0 +1,104 @@
+// src/styles/_md3-common.scss
+// 在各页面 <style lang="scss"> 中 @use '@/styles/md3-common' as *; 使用
+
+// MD3 Top App Bar（56px 高，白底，主色标题）
+%md3-nav {
+    height: 56px;
+    background: var(--md-surface);
+    border-bottom: 1px solid var(--md-outline-variant);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 8px;
+    flex-shrink: 0;
+    box-sizing: border-box;
+}
+
+%md3-nav-back {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: var(--md-on-surface);
+    border-radius: var(--md-radius-full);
+    cursor: pointer;
+    flex-shrink: 0;
+    &:active { background: var(--md-surface-variant); }
+}
+
+%md3-nav-title {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--md-primary);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+// MD3 Elevated Card（白底 + 阴影）
+%md3-card-elevated {
+    background: var(--md-surface);
+    border-radius: var(--md-radius-md);
+    box-shadow: var(--md-elevation-1);
+    padding: var(--md-space-lg);
+}
+
+// MD3 Filled Card（Primary Container 背景）
+%md3-card-filled {
+    background: var(--md-primary-container);
+    border-radius: var(--md-radius-md);
+    padding: var(--md-space-lg);
+}
+
+// MD3 Outlined Card
+%md3-card-outlined {
+    background: var(--md-surface);
+    border-radius: var(--md-radius-md);
+    border: 1px solid var(--md-outline-variant);
+    padding: var(--md-space-lg);
+}
+
+// MD3 Filled Button
+%md3-btn-filled {
+    height: 40px;
+    padding: 0 24px;
+    border-radius: var(--md-radius-full);
+    background: var(--md-primary);
+    color: var(--md-on-primary);
+    font-size: 14px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    &:disabled { opacity: 0.38; }
+    &:active:not(:disabled) { opacity: 0.88; }
+}
+
+// MD3 Outlined Button
+%md3-btn-outlined {
+    @extend %md3-btn-filled;
+    background: transparent;
+    color: var(--md-primary);
+    border: 1px solid var(--md-outline);
+}
+
+// 状态芯片基类
+%md3-chip-base {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: var(--md-radius-full);
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+%md3-chip-running  { @extend %md3-chip-base; background: var(--status-running-bg);  color: var(--status-running-fg); }
+%md3-chip-stopped  { @extend %md3-chip-base; background: var(--status-stopped-bg);  color: var(--status-stopped-fg); }
+%md3-chip-expired  { @extend %md3-chip-base; background: var(--status-expired-bg);  color: var(--status-expired-fg); }
+%md3-chip-expiring { @extend %md3-chip-base; background: var(--status-warning-bg);  color: var(--status-warning-fg); }
