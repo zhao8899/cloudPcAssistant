@@ -67,4 +67,6 @@ const handleCollect = async (index: number): Promise<void> => {
 }
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+/* background provided by news-card's surface token */
+</style>

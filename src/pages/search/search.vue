@@ -9,7 +9,7 @@
     </page-meta>
     <view class="search">
         <!-- 搜索框 -->
-        <view class="px-[24rpx] py-[14rpx] bg-white">
+        <view class="search-bar">
             <u-search
                 v-model="keyword"
                 placeholder="请输入关键词搜索"
@@ -132,11 +132,20 @@ search.his_search = cache.get(HISTORY) || []
 
 <style lang="scss" scoped>
 .search {
-    &-content {
-        height: calc(100vh - 46px - env(safe-area-inset-bottom));
-        &-s {
-            height: 100%;
-        }
+    background: var(--md-background);
+    min-height: 100vh;
+}
+
+.search-bar {
+    padding: 10px 14px;
+    background: var(--md-surface);
+    border-bottom: 1px solid var(--md-outline-variant);
+}
+
+.search-content {
+    height: calc(100vh - 56px - env(safe-area-inset-bottom));
+    &-s {
+        height: 100%;
     }
 }
 </style>
