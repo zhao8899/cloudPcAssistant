@@ -1,7 +1,7 @@
 <template>
     <view class="page">
         <view class="nav">
-            <view class="nav__back" @click="back">&lt;</view>
+            <view class="nav__back" @click="back">‹</view>
             <view class="nav__title">通知中心</view>
         </view>
 
@@ -77,51 +77,58 @@ onShow(() => {
 <style scoped lang="scss">
 .page {
     min-height: 100vh;
-    background: #f8fafc;
+    background: var(--md-background);
+    display: flex;
+    flex-direction: column;
 }
 
 .nav {
     display: flex;
     align-items: center;
-    height: 110rpx;
-    padding: 0 28rpx;
-    color: #fff;
-    background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
-    border-bottom-left-radius: 28rpx;
-    border-bottom-right-radius: 28rpx;
+    height: 56px;
+    padding: 0 4px 0 8px;
+    background: var(--md-surface);
+    border-bottom: 1px solid var(--md-outline-variant);
+    flex-shrink: 0;
 }
 
 .nav__back {
-    width: 60rpx;
-    font-size: 36rpx;
-    font-weight: 700;
+    width: 40px;
+    font-size: 28px;
+    color: var(--md-on-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 }
 
 .nav__title {
     flex: 1;
     text-align: center;
-    margin-right: 60rpx;
-    font-size: 30rpx;
-    font-weight: 900;
+    margin-right: 40px;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--md-on-surface);
 }
 
 .list {
-    padding: 28rpx;
+    padding: 12px 14px 0;
 }
 
 .empty {
-    padding: 140rpx 40rpx;
+    padding: 60px 20px;
     text-align: center;
-    color: #94a3b8;
-    font-size: 24rpx;
+    color: var(--md-on-surface-variant);
+    font-size: 14px;
 }
 
 .notice-card {
-    padding: 28rpx;
-    border-radius: 28rpx;
-    background: #fff;
-    box-shadow: 0 16rpx 40rpx rgba(15, 23, 42, 0.05);
-    margin-bottom: 18rpx;
+    padding: 14px;
+    border-radius: var(--md-radius-md);
+    background: var(--md-surface);
+    box-shadow: var(--md-elevation-1);
+    margin-bottom: 10px;
+    cursor: pointer;
 }
 
 .notice-card__head {
@@ -131,28 +138,29 @@ onShow(() => {
 }
 
 .notice-card__title {
-    font-size: 28rpx;
-    color: #0f172a;
-    font-weight: 900;
+    font-size: 15px;
+    color: var(--md-on-surface);
+    font-weight: 500;
 }
 
 .notice-card__dot {
-    width: 16rpx;
-    height: 16rpx;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-    background: #2563eb;
+    background: var(--md-primary);
+    flex-shrink: 0;
 }
 
 .notice-card__content {
-    margin-top: 14rpx;
-    color: #475569;
-    font-size: 22rpx;
+    margin-top: 6px;
+    color: var(--md-on-surface-variant);
+    font-size: 13px;
     line-height: 1.7;
 }
 
 .notice-card__date {
-    margin-top: 16rpx;
-    color: #94a3b8;
-    font-size: 18rpx;
+    margin-top: 8px;
+    color: var(--md-on-surface-variant);
+    font-size: 11px;
 }
 </style>
