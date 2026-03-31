@@ -1,0 +1,13 @@
+﻿{
+    "slot":  "1850",
+    "scheduled_time":  "2026-03-30 18:50:00 +08:00",
+    "started_at":  "2026-03-30 18:50:00 +08:00",
+    "repo_root":  "D:\\workSpace\\cloudPcAssistant​",
+    "report_path":  "D:\\workSpace\\cloudPcAssistant​\\review-reports\\1850\\report.md",
+    "images":  [
+                   "D:\\workSpace\\cloudPcAssistant​\\微信图片_20260330180829_231_62.jpg",
+                   "D:\\workSpace\\cloudPcAssistant​\\微信图片_20260330180830_232_62.jpg",
+                   "D:\\workSpace\\cloudPcAssistant​\\微信图片_20260330180831_233_62.jpg",
+                   "D:\\workSpace\\cloudPcAssistant​\\微信图片_20260330180832_234_62.jpg"
+               ]
+}

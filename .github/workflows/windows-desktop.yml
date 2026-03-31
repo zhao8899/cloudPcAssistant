@@ -1,0 +1,40 @@
+name: Build Desktop Installer
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Root Dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Build H5
+        run: npm run build:h5
+
+      - name: Install Desktop Dependencies
+        run: npm install
+        working-directory: desktop
+
+      - name: Build Desktop Installer
+        run: npm run dist
+        working-directory: desktop
+
+      - name: Upload Desktop Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: desktop-installer
+          path: desktop/dist/**

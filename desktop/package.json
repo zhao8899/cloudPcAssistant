@@ -1,0 +1,52 @@
+{
+  "name": "cloud-pc-assistant-desktop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Electron desktop shell for the cloud PC assistant",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron .",
+    "lint:main": "node --check main.js && node --check preload.js",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder --win nsis",
+    "dist:all": "npm --prefix .. run build:desktop:web && npm run dist"
+  },
+  "devDependencies": {
+    "electron": "^36.2.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "cc.tyyun.desktop",
+    "productName": "CloudPcAssistant",
+    "artifactName": "${productName}-${version}-${arch}.${ext}",
+    "files": [
+      "main.js",
+      "preload.js"
+    ],
+    "extraResources": [
+      {
+        "from": "../dist",
+        "to": "frontend"
+      }
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false
+    }
+  }
+}

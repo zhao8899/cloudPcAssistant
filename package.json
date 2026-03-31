@@ -1,0 +1,48 @@
+{
+  "name": "cloud-pc-assistant",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "dev:desktop:web": "cross-env NODE_ENV=development UNI_PLATFORM=h5 vite --config vite.config.cjs",
+    "build:desktop:web": "cross-env NODE_ENV=production UNI_PLATFORM=h5 vite build --config vite.config.cjs",
+    "typecheck": "vue-tsc --noEmit",
+    "desktop:dev": "npm run build:desktop:web && npm --prefix desktop run start",
+    "desktop:dist": "npm run build:desktop:web && npm --prefix desktop run dist",
+    "desktop:dist:all": "npm run build:desktop:web && npm --prefix desktop run dist"
+  },
+  "dependencies": {
+    "@dcloudio/uni-app": "3.0.0-5000520260324002",
+    "@dcloudio/uni-components": "3.0.0-5000520260324002",
+    "@dcloudio/uni-h5": "3.0.0-5000520260324002",
+    "@dcloudio/uni-mp-weixin": "3.0.0-5000520260324002",
+    "@vue/shared": "3.4.21",
+    "css-color-function": "^1.3.3",
+    "fs-extra": "^11.3.0",
+    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
+    "pinia": "2.1.7",
+    "uniapp-router-next": "1.2.7",
+    "vconsole": "3.15.1",
+    "vue": "3.4.21",
+    "weixin-js-sdk": "1.6.5",
+    "z-paging": "^2.8.8"
+  },
+  "devDependencies": {
+    "@dcloudio/types": "3.4.28",
+    "@dcloudio/vite-plugin-uni": "3.0.0-5000520260324002",
+    "@types/node": "^22.13.10",
+    "autoprefixer": "^10.4.20",
+    "cross-env": "^7.0.3",
+    "postcss": "^8.4.49",
+    "sass": "^1.83.4",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.3",
+    "unplugin-uni-router": "1.2.7",
+    "vite": "5.2.8",
+    "vue-tsc": "^2.2.0"
+  }
+}

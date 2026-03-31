@@ -1,0 +1,31 @@
+{
+    "include":  [
+                    "env.d.ts",
+                    "src/__tmp_typecheck.vue",
+                    "vite.config.cjs"
+                ],
+    "vueCompilerOptions":  {
+                               "strictTemplates":  false
+                           },
+    "compilerOptions":  {
+                            "lib":  [
+                                        "ES2020",
+                                        "DOM"
+                                    ],
+                            "moduleResolution":  "Bundler",
+                            "baseUrl":  ".",
+                            "jsx":  "preserve",
+                            "strict":  false,
+                            "target":  "ES2020",
+                            "skipLibCheck":  true,
+                            "module":  "ESNext",
+                            "paths":  {
+                                          "@/*":  [
+                                                      "src/*"
+                                                  ]
+                                      },
+                            "types":  [
+                                          "node"
+                                      ]
+                        }
+}

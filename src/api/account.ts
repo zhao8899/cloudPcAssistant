@@ -1,0 +1,49 @@
+import { client } from '@/utils/client'
+import request from '@/utils/request'
+import { useAffiliateStore } from '@/stores/affiliate'
+
+function withAffiliatePayload(data: Record<string, any>) {
+    const affiliateStore = useAffiliateStore()
+    return {
+        ...data,
+        ...affiliateStore.payload
+    }
+}
+
+// 登录
+export function login(data: Record<string, any>) {
+    return request.post({ url: '/login/account', data: { ...withAffiliatePayload(data), terminal: client } })
+}
+
+//注册
+export function register(data: Record<string, any>) {
+    return request.post({ url: '/login/register', data: { ...withAffiliatePayload(data), channel: client } })
+}
+
+//向微信请求code的链接
+export function getWxCodeUrl(data: Record<string, any>) {
+    return request.get({ url: '/login/codeUrl', data })
+}
+
+export function OALogin(data: Record<string, any>) {
+    return request.post({ url: '/login/oaLogin', data: withAffiliatePayload(data) })
+}
+
+export function mnpLogin(data: Record<string, any>) {
+    return request.post({ url: '/login/mnpLogin', data: withAffiliatePayload(data) })
+}
+
+//更新微信小程序头像昵称
+export function updateUser(data: Record<string, any>, header: any) {
+    return request.post({ url: '/login/updateUser', data, header })
+}
+
+//小程序绑定微信
+export function mnpAuthBind(data: Record<string, any>) {
+    return request.post({ url: '/login/mnpAuthBind', data })
+}
+
+//公众号绑定微信
+export function oaAuthBind(data: Record<string, any>) {
+    return request.post({ url: '/login/oaAuthBind', data })
+}

@@ -1,0 +1,300 @@
+{
+    "pages": [
+        {
+            "path": "pages/index/index",
+            "style": {
+                "navigationStyle": "custom"
+            }
+        },
+        {
+            "path": "pages/desktop/home",
+            "style": {
+                "navigationStyle": "custom"
+            }
+        },
+        {
+            "path": "pages/desktop/reminder",
+            "style": {
+                "navigationStyle": "custom"
+            }
+        },
+        {
+            "path": "pages/news/news",
+            "style": {
+                "navigationStyle": "custom",
+                "disableScroll": true
+            }
+        },
+        {
+            "path": "pages/user/user",
+            "style": {
+                "navigationStyle": "custom"
+            }
+        },
+        {
+            "path": "pages/login/login",
+            "style": {
+                "navigationBarTitleText": "鐧诲綍"
+            },
+            "meta": {
+                "white": true
+            }
+        },
+        {
+            "path": "pages/register/register",
+            "style": {
+                "navigationBarTitleText": "娉ㄥ唽"
+            },
+            "meta": {
+                "white": true
+            }
+        },
+        {
+            "path": "pages/forget_pwd/forget_pwd",
+            "style": {
+                "navigationBarTitleText": "蹇樿瀵嗙爜"
+            },
+            "meta": {
+                "white": true
+            }
+        },
+        {
+            "path": "pages/customer_service/customer_service",
+            "style": {
+                "navigationBarTitleText": "鑱旂郴瀹㈡湇"
+            },
+            "meta": {
+                "white": true
+            }
+        },
+        {
+            "path": "pages/news_detail/news_detail",
+            "style": {
+                "navigationBarTitleText": "璇︽儏"
+            }
+        },
+        {
+            "path": "pages/user_set/user_set",
+            "style": {
+                "navigationBarTitleText": "涓汉璁剧疆"
+            },
+            "meta": {
+                "auth": true
+            }
+        },
+        {
+            "path": "pages/attribution/attribution",
+            "style": {
+                "navigationBarTitleText": "褰掑洜璁剧疆"
+            },
+            "meta": {
+                "auth": true
+            }
+        },
+        {
+            "path": "pages/collection/collection",
+            "style": {
+                "navigationBarTitleText": "鎴戠殑鏀惰棌"
+            },
+            "meta": {
+                "auth": true
+            }
+        },
+        {
+            "path": "pages/as_us/as_us",
+            "style": {
+                "navigationBarTitleText": "鍏充簬鎴戜滑"
+            }
+        },
+        {
+            "path": "pages/agreement/agreement",
+            "style": {
+                "navigationBarTitleText": "鍗忚"
+            }
+        },
+        {
+            "path": "pages/change_password/change_password",
+            "style": {
+                "navigationBarTitleText": "淇敼瀵嗙爜"
+            },
+            "meta": {
+                "auth": true
+            }
+        },
+        {
+            "path": "pages/user_data/user_data",
+            "style": {
+                "navigationBarTitleText": "涓汉璧勬枡"
+            },
+            "meta": {
+                "auth": true
+            }
+        },
+        {
+            "path": "pages/search/search",
+            "style": {
+                "navigationBarTitleText": "鎼滅储"
+            }
+        },
+        {
+            "path": "pages/webview/webview"
+        },
+        {
+            "path": "pages/bind_mobile/bind_mobile",
+            "style": {
+                "navigationBarTitleText": "缁戝畾鎵嬫満鍙?"
+            }
+        },
+        {
+            "path": "pages/empty/empty",
+            "style": {
+                "navigationStyle": "custom"
+            }
+        },
+        {
+            "path": "pages/cloud/resources",
+            "style": {
+                "navigationStyle": "custom"
+            },
+            "meta": {
+                "auth": true
+            }
+        },
+        {
+            "path": "pages/cloud/detail",
+            "style": {
+                "navigationStyle": "custom"
+            },
+            "meta": {
+                "auth": true
+            }
+        },
+        {
+            "path": "pages/cloud/orders",
+            "style": {
+                "navigationStyle": "custom"
+            },
+            "meta": {
+                "auth": true
+            }
+        },
+        {
+            "path": "pages/cloud/order-detail",
+            "style": {
+                "navigationStyle": "custom"
+            },
+            "meta": {
+                "auth": true
+            }
+        },
+        {
+            "path": "pages/cloud/purchase",
+            "style": {
+                "navigationStyle": "custom"
+            },
+            "meta": {
+                "auth": true
+            }
+        },
+        {
+            "path": "pages/cloud/notifications",
+            "style": {
+                "navigationStyle": "custom"
+            },
+            "meta": {
+                "auth": true
+            }
+        },
+        {
+            "path": "pages/cloud/renew",
+            "style": {
+                "navigationStyle": "custom"
+            },
+            "meta": {
+                "auth": true
+            }
+        },
+        {
+            "path": "pages/cloud/rename",
+            "style": {
+                "navigationStyle": "custom"
+            },
+            "meta": {
+                "auth": true
+            }
+        },
+        {
+            "path": "pages/payment_result/payment_result",
+            "style": {
+                "navigationBarTitleText": "鏀粯缁撴灉"
+            },
+            "meta": {
+                "auth": true
+            }
+        },
+        {
+            "path": "uni_modules/vk-uview-ui/components/u-avatar-cropper/u-avatar-cropper",
+            "style": {
+                "navigationBarTitleText": "澶村儚瑁佸壀",
+                "navigationBarBackgroundColor": "#000000"
+            }
+        }
+    ],
+    "subPackages": [
+        {
+            "root": "packages",
+            "pages": [
+                {
+                    "path": "pages/404/404",
+                    "style": {
+                        "navigationBarTitleText": "404"
+                    },
+                    "name": "404",
+                    "meta": {
+                        "white": true
+                    }
+                },
+                {
+                    "path": "pages/user_wallet/user_wallet",
+                    "style": {
+                        "navigationBarTitleText": "鎴戠殑閽卞寘"
+                    },
+                    "meta": {
+                        "auth": true
+                    }
+                },
+                {
+                    "path": "pages/recharge/recharge",
+                    "style": {
+                        "navigationBarTitleText": "鍏呭€?"
+                    },
+                    "meta": {
+                        "auth": true
+                    }
+                },
+                {
+                    "path": "pages/recharge_record/recharge_record",
+                    "style": {
+                        "navigationBarTitleText": "鍏呭€艰褰?"
+                    },
+                    "meta": {
+                        "auth": true
+                    }
+                }
+            ]
+        }
+    ],
+    "globalStyle": {
+        "navigationBarTextStyle": "black",
+        "navigationBarTitleText": "鍟嗗煄",
+        "navigationBarBackgroundColor": "#FFFFFF",
+        "backgroundColor": "#F8F8F8"
+    },
+    "easycom": {
+        "custom": {
+            "router-navigate": "uniapp-router-next/components/router-navigate/router-navigate.vue",
+            "^(?!z-paging-refresh|z-paging-load-more)z-paging(.*)": "z-paging/components/z-paging$1/z-paging$1.vue",
+            "^w-(.*)": "@/components/widgets/$1/$1.vue"
+        }
+    }
+}
