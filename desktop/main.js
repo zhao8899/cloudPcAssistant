@@ -9,6 +9,8 @@ const REMINDER_WIDTH = 160
 const REMINDER_HEIGHT = 110
 const APP_BASE_PATH = '/mobile/'
 const DEV_URL = process.env.FRONTEND_DEV_URL || ''
+const REMINDER_MODE = (process.env.REMINDER_MODE || 'persistent').toLowerCase()
+const shouldHideOnBlur = REMINDER_MODE === 'transient'
 
 let mainWindow = null
 let reminderWindow = null
@@ -216,6 +218,14 @@ function createReminderWindow() {
         }
     })
 
+    if (shouldHideOnBlur) {
+        reminderWindow.on('blur', () => {
+            if (reminderWindow && !reminderWindow.webContents.isDevToolsOpened()) {
+                reminderWindow.hide()
+            }
+        })
+    }
+
     reminderWindow.on('close', (event) => {
         if (isQuitting) return
         event.preventDefault()
@@ -237,6 +247,9 @@ function showReminderWindow() {
     window.setBounds(getReminderBounds())
     if (!window.isVisible()) {
         window.show()
+    }
+    if (shouldHideOnBlur) {
+        window.focus()
     }
     return window
 }
