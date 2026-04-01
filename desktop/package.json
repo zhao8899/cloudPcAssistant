@@ -2,6 +2,7 @@
   "name": "cloud-pc-assistant-desktop",
   "version": "1.0.0",
   "private": true,
+  "author": "zhao8899",
   "description": "Electron desktop shell for the cloud PC assistant",
   "main": "main.js",
   "scripts": {
@@ -34,6 +35,7 @@
       "output": "dist"
     },
     "win": {
+      "icon": "build/icon.ico",
       "target": [
         {
           "target": "nsis",
@@ -46,7 +48,9 @@
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
-      "perMachine": false
+      "perMachine": false,
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico"
     }
   }
 }

@@ -82,7 +82,7 @@ const uploadImageIng = async (file: string) => {
         title: '正在上传中...'
     })
     try {
-        const res: any = await uploadImage(file, userStore.temToken!)
+        const res: any = await uploadImage(file)
         uni.hideLoading()
         console.log(res)
         emit('update:modelValue', res[props.fileKey])
