@@ -7,6 +7,7 @@ const WINDOW_WIDTH = 480
 const WINDOW_HEIGHT = 682
 const REMINDER_WIDTH = 160
 const REMINDER_HEIGHT = 110
+const REMINDER_SCALE = Number(process.env.REMINDER_SCALE || 0.5)
 const APP_BASE_PATH = '/mobile/'
 const DEV_URL = process.env.FRONTEND_DEV_URL || ''
 const REMINDER_MODE = (process.env.REMINDER_MODE || 'persistent').toLowerCase()
@@ -157,10 +158,10 @@ function getReminderBounds() {
     const display = screen.getPrimaryDisplay()
     const { x, y, width } = display.workArea
     return {
-        x: x + width - REMINDER_WIDTH - 20,
+        x: x + width - Math.round(REMINDER_WIDTH * REMINDER_SCALE) - 20,
         y: y + 72,
-        width: REMINDER_WIDTH,
-        height: REMINDER_HEIGHT
+        width: Math.round(REMINDER_WIDTH * REMINDER_SCALE),
+        height: Math.round(REMINDER_HEIGHT * REMINDER_SCALE)
     }
 }
 
@@ -168,8 +169,8 @@ function createReminderWindow() {
     if (reminderWindow) return reminderWindow
 
     reminderWindow = new BrowserWindow({
-        width: REMINDER_WIDTH,
-        height: REMINDER_HEIGHT,
+        width: Math.round(REMINDER_WIDTH * REMINDER_SCALE),
+        height: Math.round(REMINDER_HEIGHT * REMINDER_SCALE),
         minWidth: 140,
         minHeight: 90,
         frame: false,

@@ -1,17 +1,21 @@
 <template>
-    <view class="reminder-mini" @click="openWorkbench('/pages/desktop/home')">
-        <view class="reminder-mini__close" @click.stop="closeReminder">×</view>
+    <view class="reminder-mini">
+        <view class="reminder-mini__drag-handle"></view>
+        <view class="reminder-mini__close" @click.stop="closeReminder">脳</view>
         <view v-if="currentResource" class="reminder-mini__body">
             <view class="reminder-mini__name">
-                {{ currentResource.name || currentResource.resource_name || '云电脑' }}
+                {{ currentResource.name || currentResource.resource_name || '浜戠數鑴?' }}
             </view>
             <view class="reminder-mini__countdown" :class="{ 'is-expired': isExpired }">
                 {{ countdownText }}
             </view>
         </view>
         <view v-else class="reminder-mini__body">
-            <view class="reminder-mini__name">暂无到期提醒</view>
-            <view class="reminder-mini__countdown reminder-mini__countdown--ok">正常</view>
+            <view class="reminder-mini__name">鏆傛棤鍒版湡鎻愰啋</view>
+            <view class="reminder-mini__countdown reminder-mini__countdown--ok">姝ｅ父</view>
+        </view>
+        <view class="reminder-mini__cta" @click.stop="openWorkbench('/pages/desktop/home')">
+            返回主界面
         </view>
     </view>
 </template>
@@ -56,15 +60,15 @@ const countdownText = computed(() => {
     if (!expiredAt) return ''
 
     const diff = expiredAt - nowSeconds.value
-    if (diff <= 0) return '已到期'
+    if (diff <= 0) return '宸插埌鏈?'
 
     const days = Math.floor(diff / 86400)
     const hours = Math.floor((diff % 86400) / 3600)
     const minutes = Math.floor((diff % 3600) / 60)
 
-    if (days > 0) return `${days}天${hours}时`
-    if (hours > 0) return `${hours}时${minutes}分`
-    return `${Math.max(minutes, 1)}分钟`
+    if (days > 0) return `${days}澶?{hours}鏃禶`
+    if (hours > 0) return `${hours}鏃?{minutes}鍒哷`
+    return `${Math.max(minutes, 1)}鍒嗛挓`
 })
 
 let refreshTimer: ReturnType<typeof setInterval> | null = null
@@ -141,6 +145,17 @@ onUnload(() => clearTimers())
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    -webkit-app-region: no-drag;
+}
+
+.reminder-mini__drag-handle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 24px;
+    -webkit-app-region: drag;
+    cursor: move;
 }
 
 .reminder-mini__close {
@@ -161,6 +176,7 @@ onUnload(() => clearTimers())
 
 .reminder-mini__body {
     text-align: center;
+    -webkit-app-region: no-drag;
 }
 
 .reminder-mini__name {
@@ -186,5 +202,17 @@ onUnload(() => clearTimers())
 
 .reminder-mini__countdown--ok {
     color: #059669;
+}
+
+.reminder-mini__cta {
+    margin-top: 6px;
+    padding: 6px 16px;
+    border-radius: var(--md-radius-sm);
+    background: var(--md-primary);
+    color: var(--md-on-primary);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    -webkit-app-region: no-drag;
 }
 </style>
