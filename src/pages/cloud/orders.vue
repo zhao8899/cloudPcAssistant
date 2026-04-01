@@ -1,6 +1,7 @@
 <template>
     <view class="page" :class="{ 'page--desktop': isDesktop }">
         <view class="nav">
+            <view class="nav__back" @click="uni.navigateBack()">←</view>
             <view class="nav__title">订单中心</view>
         </view>
 
@@ -225,11 +226,27 @@ onShow(() => {
 .nav {
     display: flex;
     align-items: center;
+    gap: 4px;
     height: 56px;
-    padding: 0 16px;
+    padding: 0 4px 0 8px;
     background: var(--md-surface);
     border-bottom: 1px solid var(--md-outline-variant);
     flex-shrink: 0;
+}
+
+.nav__back {
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
+    color: var(--md-on-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: var(--md-radius-full);
+    flex-shrink: 0;
+    &:hover { background: var(--md-surface-variant); }
+    &:active { background: var(--md-outline-variant); }
 }
 
 .nav__title {

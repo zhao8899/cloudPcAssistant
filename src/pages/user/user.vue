@@ -55,15 +55,15 @@
             <view class="section-title">常用服务</view>
             <view class="service-grid">
                 <view class="service-item" @click="handleGo('/pages/user_data/user_data', true)">
-                    <view class="service-item__icon service-item__icon--green">S</view>
+                    <view class="service-item__icon service-item__icon--green" v-html="iconVerified" />
                     <view class="service-item__label">实名认证</view>
                 </view>
                 <view class="service-item" @click="handleGo('/pages/customer_service/customer_service')">
-                    <view class="service-item__icon service-item__icon--blue">H</view>
+                    <view class="service-item__icon service-item__icon--blue" v-html="iconSupport" />
                     <view class="service-item__label">在线客服</view>
                 </view>
                 <view class="service-item" @click="handleGo('/pages/user_set/user_set', true)">
-                    <view class="service-item__icon service-item__icon--orange">i</view>
+                    <view class="service-item__icon service-item__icon--orange" v-html="iconSecurity" />
                     <view class="service-item__label">安全中心</view>
                 </view>
             </view>
@@ -72,18 +72,18 @@
         <view class="menu-card">
             <view class="menu-item" @click="handleGo('/pages/cloud/resources', true)">
                 <view class="menu-item__left">
-                    <view class="menu-item__icon menu-item__icon--indigo">C</view>
+                    <view class="menu-item__icon menu-item__icon--indigo" v-html="iconCloud" />
                     <text class="menu-item__text">云电脑</text>
                 </view>
-                <text class="menu-item__arrow">></text>
+                <text class="menu-item__arrow">›</text>
             </view>
 
             <view class="menu-item" @click="handleGo('/pages/cloud/orders', true)">
                 <view class="menu-item__left">
-                    <view class="menu-item__icon menu-item__icon--gold">O</view>
+                    <view class="menu-item__icon menu-item__icon--gold" v-html="iconReceipt" />
                     <text class="menu-item__text">订单中心</text>
                 </view>
-                <text class="menu-item__arrow">></text>
+                <text class="menu-item__arrow">›</text>
             </view>
 
             <view
@@ -92,20 +92,20 @@
                 @click="handleContactAgent"
             >
                 <view class="menu-item__left">
-                    <view class="menu-item__icon menu-item__icon--blue">A</view>
+                    <view class="menu-item__icon menu-item__icon--blue" v-html="iconAgent" />
                     <text class="menu-item__text">联系代理商</text>
                 </view>
-                <text class="menu-item__arrow">></text>
+                <text class="menu-item__arrow">›</text>
             </view>
         </view>
 
         <view v-if="isLogin" class="menu-card">
             <view class="menu-item" @click="handleOpenShare">
                 <view class="menu-item__left">
-                    <view class="menu-item__icon menu-item__icon--sky">S</view>
+                    <view class="menu-item__icon menu-item__icon--sky" v-html="iconShare" />
                     <text class="menu-item__text">我要分享</text>
                 </view>
-                <text class="menu-item__arrow">></text>
+                <text class="menu-item__arrow">›</text>
             </view>
 
             <view class="menu-item menu-item--danger" @click="handleLogout">
@@ -142,6 +142,16 @@
 
 <script setup lang="ts">
 import DesktopBottomNav from '@/components/desktop-bottom-nav/desktop-bottom-nav.vue'
+
+// MD3 SVG icons (20px, fill=currentColor)
+const svgIcon = (d: string) => `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="${d}"/></svg>`
+const iconVerified = svgIcon('M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z')
+const iconSupport = svgIcon('M21 12.22C21 6.73 16.74 3 12 3c-4.69 0-9 3.65-9 9.28-.6.34-1 .98-1 1.72v2c0 1.1.9 2 2 2h1v-6.1c0-3.87 3.13-7 7-7s7 3.13 7 7V19h-8v2h8c1.1 0 2-.9 2-2v-1.22c.59-.31 1-.92 1-1.64v-2.3c0-.7-.41-1.31-1-1.62z')
+const iconSecurity = svgIcon('M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z')
+const iconCloud = svgIcon('M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z')
+const iconReceipt = svgIcon('M18 17H6v-2h12v2zm0-4H6v-2h12v2zm0-4H6V7h12v2zM3 22l1.5-1.5L6 22l1.5-1.5L9 22l1.5-1.5L12 22l1.5-1.5L15 22l1.5-1.5L18 22l1.5-1.5L21 22V2l-1.5 1.5L18 2l-1.5 1.5L15 2l-1.5 1.5L12 2l-1.5 1.5L9 2 7.5 3.5 6 2 4.5 3.5 3 2v20z')
+const iconAgent = svgIcon('M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z')
+const iconShare = svgIcon('M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z')
 import { getCloudHomeData } from '@/api/cloud'
 import { useAppStore } from '@/stores/app'
 import { useUserStore } from '@/stores/user'
@@ -557,8 +567,8 @@ onShow(async () => {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
-    font-weight: 700;
+
+    :deep(svg) { fill: currentColor; }
 }
 
 .service-item__icon--green  { background: rgba(16, 185, 129, 0.12); color: #059669; }
@@ -598,9 +608,9 @@ onShow(async () => {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 13px;
-    font-weight: 700;
     flex-shrink: 0;
+
+    :deep(svg) { fill: currentColor; }
 }
 
 .menu-item__icon--blue   { background: var(--status-running-bg); color: var(--status-running-fg); }

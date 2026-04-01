@@ -103,7 +103,7 @@ const draftMessage = ref('')
 const isDesktop = isDesktopClient()
 
 const supportTitle = computed(() => String(state.content.title || '专属客服'))
-const supportSubtitle = computed(() => '桌面端客服对话框')
+const supportSubtitle = computed(() => supportTime.value ? `服务时间：${supportTime.value}` : '在线服务')
 const supportRemark = computed(() => String(state.content.remark || ''))
 const supportMobile = computed(() => String(state.content.mobile || ''))
 const supportTime = computed(() => String(state.content.time || ''))
@@ -132,10 +132,8 @@ const submitDraft = async () => {
     }
 
     await uni.showModal({
-        title: '桌面客服提示',
-        content: supportMobile.value
-            ? `当前桌面端优先通过电话或二维码联系人工客服。\n客服电话：${supportMobile.value}`
-            : '当前桌面端优先通过二维码联系人工客服。',
+        title: '提示',
+        content: '当前桌面端请通过二维码联系人工客服',
         showCancel: false,
         confirmText: '知道了'
     })
