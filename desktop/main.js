@@ -216,12 +216,6 @@ function createReminderWindow() {
         }
     })
 
-    reminderWindow.on('blur', () => {
-        if (reminderWindow && !reminderWindow.webContents.isDevToolsOpened()) {
-            reminderWindow.hide()
-        }
-    })
-
     reminderWindow.on('close', (event) => {
         if (isQuitting) return
         event.preventDefault()
@@ -244,7 +238,6 @@ function showReminderWindow() {
     if (!window.isVisible()) {
         window.show()
     }
-    window.focus()
     return window
 }
 
