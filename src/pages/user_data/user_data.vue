@@ -145,7 +145,7 @@
 
 <script lang="ts" setup>
 import { computed, ref, shallowRef } from 'vue'
-import { onShow, onUnload } from '@dcloudio/uni-app'
+import { onShow } from '@dcloudio/uni-app'
 import { getUserInfo, userEdit, userBindMobile, userMnpMobile } from '@/api/user'
 import { navigateDesktopBack } from '@/utils/desktop'
 import { smsSend } from '@/api/app'
@@ -215,7 +215,7 @@ const sendSms = async () => {
     }
 }
 
-const handleAvatarChange = (value) => {
+const handleAvatarChange = (value: string) => {
     fieldType.value = FieldType.AVATAR
     setUserInfoFun(value)
 }
@@ -249,8 +249,8 @@ const changeSex = () => {
 }
 
 // 修改用户性别
-const changeSexConfirm = (value) => {
-    setUserInfoFun(value[0] + 1)
+const changeSexConfirm = (value: number[]) => {
+    setUserInfoFun(String(value[0] + 1))
     showPicker.value = false
 }
 
@@ -304,17 +304,9 @@ const getPhoneNumber = async (e): Promise<void> => {
     }
 }
 
-const goPage = (url: string) => {
-    uni.navigateTo({
-        url: url
-    })
-}
-
 onShow(async () => {
     getUser()
 })
-
-onUnload(() => {})
 </script>
 
 <style lang="scss">

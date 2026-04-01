@@ -158,7 +158,7 @@ import { useAppStore } from '@/stores/app'
 import { useUserStore } from '@/stores/user'
 import { getDesktopHomeRoute } from '@/utils/desktop'
 import cache from '@/utils/cache'
-import { useRoute, useRouter } from 'uniapp-router-next'
+import { useRouter } from 'uniapp-router-next'
 import { computed, reactive, ref, shallowRef, watch } from 'vue'
 
 enum LoginWayEnum {
@@ -166,7 +166,6 @@ enum LoginWayEnum {
     MOBILE = 2
 }
 
-useRoute()
 const router = useRouter()
 const userStore = useUserStore()
 const appStore = useAppStore()

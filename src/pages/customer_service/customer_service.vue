@@ -112,7 +112,11 @@ const draftLength = computed(() => draftMessage.value.length)
 
 const getData = async () => {
     const data = await getDecorate({ id: 3 })
-    state.pages = JSON.parse(data.data)
+    try {
+        state.pages = JSON.parse(String(data?.data || '[]'))
+    } catch {
+        state.pages = []
+    }
     const customerServicePage = Array.isArray(state.pages)
         ? state.pages.find((item: any) => item?.name === 'customer-service')
         : null

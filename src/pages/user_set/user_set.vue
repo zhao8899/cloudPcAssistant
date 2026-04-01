@@ -92,6 +92,7 @@ import { computed, ref } from 'vue'
 import { useAppStore } from '@/stores/app'
 import { useUserStore } from '@/stores/user'
 import { AgreementEnum } from '@/enums/agreementEnums'
+import { getDesktopHomeRoute } from '@/utils/desktop'
 import { useRouter } from 'uniapp-router-next'
 
 const router = useRouter()
@@ -147,7 +148,7 @@ const handlePwd = () => {
 
 const logoutHandle = () => {
     userStore.logout()
-    router.redirectTo('/pages/login/login')
+    uni.reLaunch({ url: getDesktopHomeRoute() })
 }
 
 onShow(() => {
