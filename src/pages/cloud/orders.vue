@@ -1,7 +1,7 @@
 <template>
     <view class="page" :class="{ 'page--desktop': isDesktop }">
         <view class="nav">
-            <view class="nav__back" @click="uni.navigateBack()">←</view>
+            <view class="nav__back" @click="navigateDesktopBack()">←</view>
             <view class="nav__title">订单中心</view>
         </view>
 
@@ -99,7 +99,7 @@ import DesktopBottomNav from '@/components/desktop-bottom-nav/desktop-bottom-nav
 import { getCloudOrderWorkbench } from '@/api/cloud'
 import { onShow } from '@dcloudio/uni-app'
 import { useUserStore } from '@/stores/user'
-import { isDesktopClient } from '@/utils/desktop'
+import { isDesktopClient, navigateDesktopBack } from '@/utils/desktop'
 import { computed, reactive, ref } from 'vue'
 
 const currentTab = ref('all')

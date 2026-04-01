@@ -43,7 +43,7 @@
         {
             "path": "pages/register/register",
             "style": {
-                "navigationBarTitleText": "注册"
+                "navigationStyle": "custom"
             },
             "meta": {
                 "white": true
@@ -52,7 +52,7 @@
         {
             "path": "pages/forget_pwd/forget_pwd",
             "style": {
-                "navigationBarTitleText": "忘记密码"
+                "navigationStyle": "custom"
             },
             "meta": {
                 "white": true
@@ -115,7 +115,7 @@
         {
             "path": "pages/change_password/change_password",
             "style": {
-                "navigationBarTitleText": "修改密码"
+                "navigationStyle": "custom"
             },
             "meta": {
                 "auth": true
@@ -124,7 +124,7 @@
         {
             "path": "pages/user_data/user_data",
             "style": {
-                "navigationBarTitleText": "个人资料"
+                "navigationStyle": "custom"
             },
             "meta": {
                 "auth": true
@@ -142,7 +142,7 @@
         {
             "path": "pages/bind_mobile/bind_mobile",
             "style": {
-                "navigationBarTitleText": "绑定手机号"
+                "navigationStyle": "custom"
             }
         },
         {

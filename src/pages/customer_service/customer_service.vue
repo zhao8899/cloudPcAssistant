@@ -141,10 +141,11 @@ getData()
 
 <style scoped lang="scss">
 .customer-desktop {
-    min-height: 100vh;
+    height: 100vh;
     padding: 12px;
     box-sizing: border-box;
     background: var(--md-background);
+    overflow: hidden;
 }
 
 .chat-dialog {

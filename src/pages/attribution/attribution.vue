@@ -1,7 +1,7 @@
 <template>
     <view class="page">
         <view class="nav">
-            <view class="nav__back" @click="uni.navigateBack()">←</view>
+            <view class="nav__back" @click="navigateDesktopBack()">←</view>
             <view class="nav__title">{{ pageTitle }}设置</view>
         </view>
 
@@ -49,7 +49,6 @@
                 <view class="popup__input">
                     <u-input
                         v-model="inputValue"
-                        type="number"
                         :border="false"
                         placeholder="请输入编号"
                     />
@@ -65,6 +64,7 @@
 
 <script setup lang="ts">
 import { getUserInfo, setRecommendUser, setSourceAgentUser } from '@/api/user'
+import { navigateDesktopBack } from '@/utils/desktop'
 import { onLoad, onShow } from '@dcloudio/uni-app'
 import { computed, ref } from 'vue'
 
@@ -138,15 +138,18 @@ onShow(() => {
 
 <style scoped lang="scss">
 .page {
-    min-height: 100vh;
+    height: 100vh;
     background: var(--md-background);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 .nav {
     display: flex;
     align-items: center;
     gap: 4px;
-    height: 56px;
+    height: 48px;
     padding: 0 4px 0 8px;
     background: var(--md-surface);
     border-bottom: 1px solid var(--md-outline-variant);

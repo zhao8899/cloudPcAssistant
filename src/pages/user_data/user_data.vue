@@ -8,6 +8,11 @@
         <!-- #endif -->
     </page-meta>
     <view class="page">
+        <view class="nav">
+            <view class="nav__back" @click="navigateDesktopBack()">←</view>
+            <view class="nav__title">个人资料</view>
+        </view>
+
         <view class="avatar-section">
             <avatar-upload
                 :modelValue="userInfo?.avatar"
@@ -142,6 +147,7 @@
 import { computed, ref, shallowRef } from 'vue'
 import { onShow, onUnload } from '@dcloudio/uni-app'
 import { getUserInfo, userEdit, userBindMobile, userMnpMobile } from '@/api/user'
+import { navigateDesktopBack } from '@/utils/desktop'
 import { smsSend } from '@/api/app'
 import { FieldType, SMSEnum } from '@/enums/appEnums'
 
@@ -313,31 +319,68 @@ onUnload(() => {})
 
 <style lang="scss">
 .page {
-    min-height: 100vh;
+    height: 100vh;
     background: var(--md-background);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 48px;
+    padding: 0 4px 0 8px;
+    background: var(--md-surface);
+    border-bottom: 1px solid var(--md-outline-variant);
+    flex-shrink: 0;
+}
+
+.nav__back {
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+    color: var(--md-on-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: var(--md-radius-full);
+    flex-shrink: 0;
+    &:hover { background: var(--md-surface-variant); }
+    &:active { background: var(--md-outline-variant); }
+}
+
+.nav__title {
+    font-size: 18px;
+    color: var(--md-on-surface);
+    font-weight: 500;
 }
 
 .avatar-section {
     display: flex;
     justify-content: center;
-    padding: 20px 0 12px;
+    padding: 12px 0 8px;
     background: var(--md-surface);
     border-bottom: 1px solid var(--md-outline-variant);
+    flex-shrink: 0;
 }
 
 .menu-group {
-    margin: 12px 14px 0;
+    margin: 8px 12px 0;
     border-radius: var(--md-radius-md);
     background: var(--md-surface);
     box-shadow: var(--md-elevation-1);
-    overflow: hidden;
+    overflow: auto;
+    flex: 1;
 }
 
 .menu-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 14px;
+    padding: 10px 14px;
     border-bottom: 1px solid var(--md-outline-variant);
     &:last-child { border-bottom: none; }
 }

@@ -8,8 +8,11 @@
         <!-- #endif -->
     </page-meta>
     <view class="page">
+        <view class="nav">
+            <view class="nav__back" @click="navigateDesktopBack()">←</view>
+            <view class="nav__title">忘记密码</view>
+        </view>
         <view class="form">
-            <view class="form__title">忘记登录密码</view>
 
             <view class="field">
                 <view class="field__label">手机号</view>
@@ -52,6 +55,7 @@
 import { smsSend } from '@/api/app'
 import { forgotPassword } from '@/api/user'
 import { SMSEnum } from '@/enums/appEnums'
+import { navigateDesktopBack } from '@/utils/desktop'
 import { reactive, ref, shallowRef } from 'vue'
 
 const uCodeRef = shallowRef()
@@ -86,7 +90,7 @@ const handleConfirm = async () => {
     if (formData.password != formData.password_confirm) return uni.$u.toast('两次输入的密码不一致')
     await forgotPassword(formData)
     setTimeout(() => {
-        uni.navigateBack()
+        navigateDesktopBack()
     }, 1500)
 }
 </script>
@@ -99,17 +103,45 @@ page {
 
 <style scoped lang="scss">
 .page {
-    min-height: 100vh;
+    height: 100vh;
     background: var(--md-surface);
-    padding: 40px 20px 0;
-    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
-.form__title {
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 48px;
+    padding: 0 4px 0 8px;
+    background: var(--md-surface);
+    border-bottom: 1px solid var(--md-outline-variant);
+    flex-shrink: 0;
+}
+
+.nav__back {
+    width: 40px;
+    height: 40px;
     font-size: 22px;
-    font-weight: 500;
     color: var(--md-on-surface);
-    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: var(--md-radius-full);
+    &:hover { background: var(--md-surface-variant); }
+}
+
+.nav__title {
+    font-size: 18px;
+    color: var(--md-on-surface);
+    font-weight: 500;
+}
+
+.form {
+    padding: 20px;
 }
 
 .field {

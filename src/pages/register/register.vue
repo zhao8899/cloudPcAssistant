@@ -8,8 +8,11 @@
         <!-- #endif -->
     </page-meta>
     <view class="page">
+        <view class="nav">
+            <view class="nav__back" @click="navigateDesktopBack()">←</view>
+            <view class="nav__title">注册</view>
+        </view>
         <view class="form">
-            <view class="form__title">注册新账号</view>
 
             <view class="field">
                 <u-input
@@ -91,6 +94,7 @@
 <script setup lang="ts">
 import {register} from '@/api/account'
 import {useAppStore} from '@/stores/app'
+import { navigateDesktopBack } from '@/utils/desktop'
 import {computed, reactive, ref} from 'vue'
 
 const isCheckAgreement = ref(false)
@@ -109,9 +113,8 @@ const accountRegister = async () => {
     if (!isCheckAgreement.value && isOpenAgreement.value) return (showModel.value = true)
     if (formData.password != formData.password_confirm) return uni.$u.toast('两次输入的密码不一致')
     await register(formData)
-    // uni.navigateBack()
     setTimeout(function () {
-        uni.navigateBack()
+        navigateDesktopBack()
     }, 1000)
 }
 </script>
@@ -124,24 +127,47 @@ page {
 
 <style scoped lang="scss">
 .page {
-    min-height: 100vh;
+    height: 100vh;
     background: var(--md-surface);
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+}
+
+.nav {
+    display: flex;
     align-items: center;
-    padding: 20px 20px 0;
-    box-sizing: border-box;
+    gap: 4px;
+    height: 48px;
+    padding: 0 4px 0 8px;
+    background: var(--md-surface);
+    border-bottom: 1px solid var(--md-outline-variant);
+    flex-shrink: 0;
+}
+
+.nav__back {
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+    color: var(--md-on-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: var(--md-radius-full);
+    &:hover { background: var(--md-surface-variant); }
+}
+
+.nav__title {
+    font-size: 18px;
+    color: var(--md-on-surface);
+    font-weight: 500;
 }
 
 .form {
     width: 100%;
-}
-
-.form__title {
-    font-size: 22px;
-    font-weight: 500;
-    color: var(--md-on-surface);
-    margin-bottom: 28px;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .field {
