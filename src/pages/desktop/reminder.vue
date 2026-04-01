@@ -1,32 +1,17 @@
 <template>
-    <view class="reminder-page">
-        <view class="float-card">
-            <view class="float-card__head">
-                <view class="float-card__eyebrow">到期悬窗</view>
-                <view class="float-card__close" @click="closeReminder">×</view>
+    <view class="reminder-mini" @click="openWorkbench('/pages/desktop/home')">
+        <view class="reminder-mini__close" @click.stop="closeReminder">×</view>
+        <view v-if="currentResource" class="reminder-mini__body">
+            <view class="reminder-mini__name">
+                {{ currentResource.name || currentResource.resource_name || '云电脑' }}
             </view>
-
-            <view class="float-card__title">
-                {{ currentResource?.name || currentResource?.resource_name || currentResource?.desktop_oid || '暂无即将到期的云电脑' }}
+            <view class="reminder-mini__countdown" :class="{ 'is-expired': isExpired }">
+                {{ countdownText }}
             </view>
-
-            <template v-if="currentResource">
-                <view class="float-card__meta">到期时间：{{ currentResource.expired_at_text || '-' }}</view>
-                <view class="float-card__countdown">{{ countdownText }}</view>
-                <view class="float-card__status">{{ currentResource.status_text || '到期提醒' }}</view>
-            </template>
-
-            <template v-else>
-                <view class="float-card__meta">当前没有需要提醒的云电脑资源</view>
-                <view class="float-card__countdown float-card__countdown--empty">保持正常</view>
-            </template>
-
-            <view class="float-card__actions">
-                <view class="float-card__button float-card__button--primary" @click="openWorkbench('/pages/desktop/home')">
-                    打开工作台
-                </view>
-                <view class="float-card__button" @click="manualRefresh">刷新</view>
-            </view>
+        </view>
+        <view v-else class="reminder-mini__body">
+            <view class="reminder-mini__name">暂无到期提醒</view>
+            <view class="reminder-mini__countdown reminder-mini__countdown--ok">正常</view>
         </view>
     </view>
 </template>
@@ -51,19 +36,24 @@ type CloudResourceItem = {
 const userStore = useUserStore()
 
 const state = reactive({
-    loading: false,
     items: [] as CloudResourceItem[]
 })
 
-const isLogin = computed(() => userStore.isLogin)
 const currentResource = computed(() => state.items[0] || null)
 const nowSeconds = ref(Math.floor(Date.now() / 1000))
+
+const isExpired = computed(() => {
+    const expiredAt = Number(currentResource.value?.expired_at || 0)
+    if (!expiredAt) return false
+    return expiredAt - nowSeconds.value <= 0
+})
+
 const countdownText = computed(() => {
     const item = currentResource.value
-    if (!item) return '暂无提醒'
+    if (!item) return ''
 
     const expiredAt = Number(item.expired_at || 0)
-    if (!expiredAt) return '暂无提醒'
+    if (!expiredAt) return ''
 
     const diff = expiredAt - nowSeconds.value
     if (diff <= 0) return '已到期'
@@ -72,39 +62,21 @@ const countdownText = computed(() => {
     const hours = Math.floor((diff % 86400) / 3600)
     const minutes = Math.floor((diff % 3600) / 60)
 
-    if (days > 0) return `${days}天${hours}小时`
-    if (hours > 0) return `${hours}小时${minutes}分钟`
+    if (days > 0) return `${days}天${hours}时`
+    if (hours > 0) return `${hours}时${minutes}分`
     return `${Math.max(minutes, 1)}分钟`
 })
 
 let refreshTimer: ReturnType<typeof setInterval> | null = null
 let tickTimer: ReturnType<typeof setInterval> | null = null
 
-const go = (url: string, needLogin = false) => {
-    if (needLogin && !isLogin.value) {
-        uni.navigateTo({ url: '/pages/login/login' })
-        return
-    }
-    if (url.startsWith('/pages/desktop/')) {
-        uni.reLaunch({ url })
-        return
-    }
-    uni.navigateTo({ url })
-}
-
-const openWorkbench = async (url: string, needLogin = false) => {
-    if (needLogin && !isLogin.value) {
-        uni.navigateTo({ url: '/pages/login/login' })
-        return
-    }
-
+const openWorkbench = async (url: string) => {
     if (isDesktopClient()) {
         await openDesktopRoute(url)
         await hideDesktopReminderWindow()
         return
     }
-
-    go(url, needLogin)
+    uni.reLaunch({ url })
 }
 
 const normalizeItems = (items: CloudResourceItem[]) => {
@@ -115,51 +87,29 @@ const normalizeItems = (items: CloudResourceItem[]) => {
 }
 
 const loadData = async () => {
-    state.loading = true
-
     try {
-        if (!isLogin.value) {
+        if (!userStore.isLogin) {
             state.items = []
             return
         }
-
         const homeData = await getCloudHomeData()
         state.items = normalizeItems(
             Array.isArray(homeData?.latest_resources) ? homeData.latest_resources : []
         )
-    } catch (error) {
+    } catch {
         state.items = []
-        if (typeof error !== 'string') {
-            uni.$u.toast('悬窗加载失败')
-        }
-    } finally {
-        state.loading = false
     }
 }
 
-const clearRefreshTimer = () => {
-    if (refreshTimer) {
-        clearInterval(refreshTimer)
-        refreshTimer = null
-    }
-    if (tickTimer) {
-        clearInterval(tickTimer)
-        tickTimer = null
-    }
+const clearTimers = () => {
+    if (refreshTimer) { clearInterval(refreshTimer); refreshTimer = null }
+    if (tickTimer) { clearInterval(tickTimer); tickTimer = null }
 }
 
-const startRefreshTimer = () => {
-    clearRefreshTimer()
-    refreshTimer = setInterval(() => {
-        loadData()
-    }, 60000)
-    tickTimer = setInterval(() => {
-        nowSeconds.value = Math.floor(Date.now() / 1000)
-    }, 1000)
-}
-
-const manualRefresh = () => {
-    loadData()
+const startTimers = () => {
+    clearTimers()
+    refreshTimer = setInterval(() => loadData(), 60000)
+    tickTimer = setInterval(() => { nowSeconds.value = Math.floor(Date.now() / 1000) }, 1000)
 }
 
 const closeReminder = () => {
@@ -168,126 +118,73 @@ const closeReminder = () => {
 
 onShow(() => {
     loadData()
-    startRefreshTimer()
+    startTimers()
 })
 
-onHide(() => {
-    clearRefreshTimer()
-})
-
-onUnload(() => {
-    clearRefreshTimer()
-})
+onHide(() => clearTimers())
+onUnload(() => clearTimers())
 </script>
 
 <style scoped lang="scss">
-.reminder-page {
-    min-height: 100vh;
-    padding: 10px;
+.reminder-mini {
+    width: 100%;
+    height: 100vh;
+    padding: 8px;
     box-sizing: border-box;
-    background: transparent;
-}
-
-.float-card {
-    min-height: calc(100vh - 20px);
-    padding: 16px;
-    border-radius: var(--md-radius-lg);
     background: var(--md-surface);
     border: 1px solid var(--md-outline-variant);
-    box-shadow: var(--md-elevation-1);
+    border-radius: var(--md-radius-md);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-}
-
-.float-card__head {
-    display: flex;
+    justify-content: center;
     align-items: center;
-    justify-content: space-between;
-    gap: 12px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
 }
 
-.float-card__eyebrow {
-    color: var(--md-primary);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-}
-
-.float-card__close {
-    width: 28px;
-    height: 28px;
-    border-radius: var(--md-radius-xs);
+.reminder-mini__close {
+    position: absolute;
+    top: 2px;
+    right: 4px;
+    width: 20px;
+    height: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--md-surface-variant);
+    font-size: 14px;
     color: var(--md-on-surface-variant);
-    font-size: 18px;
     cursor: pointer;
-}
-
-.float-card__title {
-    margin-top: 10px;
-    color: var(--md-on-surface);
-    font-size: 18px;
-    line-height: 1.35;
-    font-weight: 500;
-}
-
-.float-card__meta {
-    margin-top: 12px;
-    color: var(--md-on-surface-variant);
-    font-size: 12px;
-    line-height: 1.6;
-}
-
-.float-card__countdown {
-    margin-top: 18px;
-    color: var(--status-expired-fg);
-    font-size: 30px;
-    line-height: 1;
-    font-weight: 500;
-}
-
-.float-card__countdown--empty {
-    color: #059669;
-}
-
-.float-card__status {
-    margin-top: 10px;
-    display: inline-flex;
-    align-self: flex-start;
-    padding: 4px 10px;
     border-radius: var(--md-radius-full);
-    background: var(--md-primary-container);
-    color: var(--md-primary);
-    font-size: 12px;
-    font-weight: 500;
+    &:hover { background: var(--md-surface-variant); }
 }
 
-.float-card__actions {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-    margin-top: 18px;
+.reminder-mini__body {
+    text-align: center;
 }
 
-.float-card__button {
-    height: 38px;
-    border-radius: var(--md-radius-sm);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--md-primary-container);
-    color: var(--md-primary);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
+.reminder-mini__name {
+    font-size: 11px;
+    color: var(--md-on-surface-variant);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 140px;
 }
 
-.float-card__button--primary {
-    background: var(--md-primary);
-    color: var(--md-on-primary);
+.reminder-mini__countdown {
+    margin-top: 4px;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--md-error);
+    line-height: 1.2;
+
+    &.is-expired {
+        color: var(--status-expired-fg);
+    }
+}
+
+.reminder-mini__countdown--ok {
+    color: #059669;
 }
 </style>

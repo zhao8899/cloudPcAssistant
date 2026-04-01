@@ -4,9 +4,9 @@ const http = require('http')
 const path = require('path')
 
 const WINDOW_WIDTH = 480
-const WINDOW_HEIGHT = 620
-const REMINDER_WIDTH = 320
-const REMINDER_HEIGHT = 220
+const WINDOW_HEIGHT = 682
+const REMINDER_WIDTH = 160
+const REMINDER_HEIGHT = 110
 const APP_BASE_PATH = '/mobile/'
 const DEV_URL = process.env.FRONTEND_DEV_URL || ''
 
@@ -168,8 +168,8 @@ function createReminderWindow() {
     reminderWindow = new BrowserWindow({
         width: REMINDER_WIDTH,
         height: REMINDER_HEIGHT,
-        minWidth: 280,
-        minHeight: 180,
+        minWidth: 140,
+        minHeight: 90,
         frame: false,
         resizable: false,
         maximizable: false,

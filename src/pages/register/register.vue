@@ -43,19 +43,22 @@
                 />
             </view>
 
-            <view class="agreement" v-if="isOpenAgreement">
-                <u-checkbox v-model="isCheckAgreement" shape="circle">
-                    <view class="agreement__text">
-                        已阅读并同意
-                        <view @click.stop>
-                            <router-navigate class="agreement__link" hover-class="none" to="/pages/agreement/agreement?type=service">《服务协议》</router-navigate>
-                        </view>
-                        和
-                        <view @click.stop>
-                            <router-navigate class="agreement__link" hover-class="none" to="/pages/agreement/agreement?type=privacy">《隐私协议》</router-navigate>
-                        </view>
+            <view v-if="isOpenAgreement" class="agreement">
+                <view class="agreement__row" @click="isCheckAgreement = !isCheckAgreement">
+                    <view class="agreement__check" :class="{ 'is-checked': isCheckAgreement }">
+                        <text v-if="isCheckAgreement" class="agreement__tick">✓</text>
                     </view>
-                </u-checkbox>
+                    <view class="agreement__text">已阅读并同意</view>
+                </view>
+                <view class="agreement__links">
+                    <navigator class="agreement__link" hover-class="none" url="/pages/agreement/agreement?type=service">
+                        《服务协议》
+                    </navigator>
+                    <text>和</text>
+                    <navigator class="agreement__link" hover-class="none" url="/pages/agreement/agreement?type=privacy">
+                        《隐私协议》
+                    </navigator>
+                </view>
             </view>
 
             <view
@@ -185,11 +188,51 @@ page {
     margin-bottom: 20px;
 }
 
-.agreement__text {
-    font-size: 12px;
+.agreement__row {
     display: flex;
     align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.agreement__check {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--md-outline-variant);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s, border-color 0.15s;
+
+    &.is-checked {
+        background: var(--md-primary);
+        border-color: var(--md-primary);
+    }
+}
+
+.agreement__tick {
+    color: var(--md-on-primary);
+    font-size: 12px;
+    line-height: 1;
+}
+
+.agreement__text {
+    font-size: 12px;
     color: var(--md-on-surface-variant);
+}
+
+.agreement__links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    font-size: 12px;
+    color: var(--md-on-surface-variant);
+    margin-top: 6px;
+    padding-left: 28px;
 }
 
 .agreement__link {
