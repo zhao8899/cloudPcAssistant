@@ -18,14 +18,7 @@
       "Bash(do)",
       "Bash(sed -i 's/>‹</>←</g' \"$f\")",
       "Bash(done)",
-      "Bash(1)",
-      "Bash(gh repo:*)",
-      "Bash(git remote:*)",
-      "mcp__plugin_github_github__list_pull_requests",
-      "Bash(cat docs/*.md)",
-      "Bash(cat src/utils/request/*.ts)",
-      "Bash(git pull:*)"
+      "Bash(1)"
     ]
-  },
-  "enabledPlugins": {}
+  }
 }

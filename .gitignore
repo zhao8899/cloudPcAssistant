@@ -18,3 +18,4 @@ pnpm-debug.log*
 
 desktop/node_modules/
 desktop/dist/
+.claude/settings.json
