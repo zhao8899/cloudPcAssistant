@@ -106,7 +106,7 @@
         <view class="popup-card">
             <view class="popup-card__title">实名认证姓名</view>
             <view class="popup-field">
-                <u-input v-model="newRealName" placeholder="请输入真实姓名" :border="false" />
+                <input class="popup-native-input" v-model="newRealName" placeholder="请输入真实姓名" />
             </view>
             <view class="popup-submit" @click="changeRealNameConfirm">确定</view>
         </view>
@@ -116,7 +116,7 @@
         <view class="popup-card">
             <view class="popup-card__title">实名认证身份证号</view>
             <view class="popup-field">
-                <u-input v-model="newIdCard" placeholder="请输入身份证号码" :border="false" />
+                <input class="popup-native-input" v-model="newIdCard" placeholder="请输入身份证号码" />
             </view>
             <view class="popup-hint">填写姓名和身份证号后，实名状态会自动更新为已实名。</view>
             <view class="popup-submit" @click="changeIdCardConfirm">确定</view>
@@ -129,10 +129,10 @@
         <view class="popup-card">
             <view class="popup-card__title">{{ userInfo?.mobile == '' ? '绑定手机号' : '更换手机号' }}</view>
             <view class="popup-field">
-                <u-input v-model="newMobile" placeholder="请输入新的手机号码" :border="false" />
+                <input class="popup-native-input" v-model="newMobile" placeholder="请输入新的手机号码" />
             </view>
             <view class="popup-field popup-field--row">
-                <u-input v-model="mobileCode" placeholder="请输入验证码" :border="false" class="flex-1" />
+                <input class="popup-native-input" v-model="mobileCode" placeholder="请输入验证码" style="flex:1" />
                 <view class="popup-sms-btn" @click="sendSms">
                     <u-verification-code ref="uCodeRef" :seconds="60" @change="codeChange" change-text="x秒" />
                     <text>{{ codeTips }}</text>
@@ -440,11 +440,15 @@ onShow(async () => {
     align-items: center;
 }
 
-.popup-input {
+.popup-input,
+.popup-native-input {
     height: 100%;
     width: 100%;
     font-size: 14px;
     color: var(--md-on-surface);
+    border: none;
+    outline: none;
+    background: transparent;
 }
 
 .popup-hint {

@@ -47,9 +47,9 @@
                 <view class="popup__title">{{ currentBinding.id ? '修改' : '补充' }}{{ pageTitle }}</view>
                 <view class="popup__tip">请输入{{ pageTitle }}编号</view>
                 <view class="popup__input">
-                    <u-input
+                    <input
+                        class="popup__input-field"
                         v-model="inputValue"
-                        :border="false"
                         placeholder="请输入编号"
                     />
                 </view>
@@ -275,6 +275,16 @@ onShow(() => {
     border: 1px solid var(--md-outline-variant);
     border-radius: var(--md-radius-sm);
     background: var(--md-background);
+}
+
+.popup__input-field {
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 14px;
+    color: var(--md-on-surface);
 }
 
 .popup__actions {
