@@ -278,7 +278,6 @@ onShow(() => {
     &:hover { background: var(--md-surface-variant); }
     &:active { background: var(--md-outline-variant); }
 }
-}
 
 .nav__title {
     flex: 1;

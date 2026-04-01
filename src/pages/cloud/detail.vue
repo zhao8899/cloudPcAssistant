@@ -411,7 +411,6 @@ const copyText = (value: string, message = '已复制') => {
     &:hover { background: var(--md-surface-variant); }
     &:active { background: var(--md-outline-variant); }
 }
-}
 
 .nav__title {
     flex: 1;
