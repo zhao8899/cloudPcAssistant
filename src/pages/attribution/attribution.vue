@@ -93,8 +93,10 @@ const fetchUserInfo = async () => {
     userInfo.value = await getUserInfo()
 }
 
+const normalizeBindingValue = (value: unknown) => String(value ?? '').trim()
+
 const openPopup = () => {
-    inputValue.value = currentBinding.value.sn ? String(currentBinding.value.sn) : ''
+    inputValue.value = normalizeBindingValue(currentBinding.value.sn)
     showPopup.value = true
 }
 
@@ -107,20 +109,21 @@ const handleCallMobile = () => {
 }
 
 const submitHandle = async () => {
-    if (!inputValue.value) return uni.$u.toast(`请输入${pageTitle.value}编号`)
+    const bindingValue = normalizeBindingValue(inputValue.value)
+    if (!bindingValue) return uni.$u.toast(`请输入${pageTitle.value}编号`)
 
     uni.showLoading({ title: '请稍后...' })
     try {
         if (type.value === AttributionType.RECOMMEND) {
-            await setRecommendUser({ recommend_id: Number(inputValue.value) })
+            await setRecommendUser({ recommend_id: bindingValue })
         } else {
-            await setSourceAgentUser({ agent_id: Number(inputValue.value) })
+            await setSourceAgentUser({ agent_id: bindingValue })
         }
         showPopup.value = false
         await fetchUserInfo()
         uni.$u.toast('操作成功')
     } catch (error: any) {
-        uni.$u.toast(error)
+        uni.$u.toast(error?.message || error || '操作失败')
     } finally {
         uni.hideLoading()
     }

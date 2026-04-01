@@ -91,7 +91,7 @@ const defaultOptions: HttpRequestOptions = {
 function createRequest(opt?: HttpRequestOptions) {
     return new HttpRequest(
         // 深度合并
-        merge(defaultOptions, opt || {})
+        merge({}, defaultOptions, opt || {})
     );
 }
 const request = createRequest();

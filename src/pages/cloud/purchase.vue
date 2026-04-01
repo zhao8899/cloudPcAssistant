@@ -314,9 +314,15 @@ const refreshUserInfo = async () => {
 }
 
 const calculateNaturalExpireTimestamp = () => {
-    const count = Math.max(1, Number(duration.value.replace('m', '').replace('y', '')) || 1)
+    const value = String(duration.value || '').trim()
+    const count = Math.max(1, Number(value.replace(/[^\d]/g, '')) || 1)
+    const isYear = value.endsWith('y')
     const target = new Date()
-    target.setMonth(target.getMonth() + count)
+    if (isYear) {
+        target.setFullYear(target.getFullYear() + count)
+    } else {
+        target.setMonth(target.getMonth() + count)
+    }
     target.setHours(23, 59, 59, 0)
     return target.getTime()
 }
@@ -518,7 +524,7 @@ const submitOrder = async () => {
 
     submitting.value = true
     try {
-        const durationValue = Number(duration.value.replace('m', '').replace('y', '')) || 1
+        const durationValue = Math.max(1, Number(String(duration.value || '').replace(/[^\d]/g, '')) || 1)
         const durationUnit = duration.value.endsWith('y') ? 'year' : 'month'
 
         const res = await submitCloudOrder({

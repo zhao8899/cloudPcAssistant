@@ -1,18 +1,18 @@
 <template>
     <view class="reminder-mini">
         <view class="reminder-mini__drag-handle"></view>
-        <view class="reminder-mini__close" @click.stop="closeReminder">脳</view>
+        <view class="reminder-mini__close" @click.stop="closeReminder">×</view>
         <view v-if="currentResource" class="reminder-mini__body">
             <view class="reminder-mini__name">
-                {{ currentResource.name || currentResource.resource_name || '浜戠數鑴?' }}
+                {{ currentResource.name || currentResource.resource_name || '云电脑' }}
             </view>
             <view class="reminder-mini__countdown" :class="{ 'is-expired': isExpired }">
                 {{ countdownText }}
             </view>
         </view>
         <view v-else class="reminder-mini__body">
-            <view class="reminder-mini__name">鏆傛棤鍒版湡鎻愰啋</view>
-            <view class="reminder-mini__countdown reminder-mini__countdown--ok">姝ｅ父</view>
+            <view class="reminder-mini__name">暂无到期提醒</view>
+            <view class="reminder-mini__countdown reminder-mini__countdown--ok">正常</view>
         </view>
         <view class="reminder-mini__cta" @click.stop="openWorkbench('/pages/desktop/home')">
             返回主界面
@@ -60,15 +60,15 @@ const countdownText = computed(() => {
     if (!expiredAt) return ''
 
     const diff = expiredAt - nowSeconds.value
-    if (diff <= 0) return '宸插埌鏈?'
+    if (diff <= 0) return '已到期'
 
     const days = Math.floor(diff / 86400)
     const hours = Math.floor((diff % 86400) / 3600)
     const minutes = Math.floor((diff % 3600) / 60)
 
-    if (days > 0) return `${days}澶?{hours}鏃禶`
-    if (hours > 0) return `${hours}鏃?{minutes}鍒哷`
-    return `${Math.max(minutes, 1)}鍒嗛挓`
+    if (days > 0) return `${days}天${hours}小时`
+    if (hours > 0) return `${hours}小时${minutes}分钟`
+    return `${Math.max(minutes, 1)}分钟`
 })
 
 let refreshTimer: ReturnType<typeof setInterval> | null = null
@@ -106,14 +106,22 @@ const loadData = async () => {
 }
 
 const clearTimers = () => {
-    if (refreshTimer) { clearInterval(refreshTimer); refreshTimer = null }
-    if (tickTimer) { clearInterval(tickTimer); tickTimer = null }
+    if (refreshTimer) {
+        clearInterval(refreshTimer)
+        refreshTimer = null
+    }
+    if (tickTimer) {
+        clearInterval(tickTimer)
+        tickTimer = null
+    }
 }
 
 const startTimers = () => {
     clearTimers()
     refreshTimer = setInterval(() => loadData(), 60000)
-    tickTimer = setInterval(() => { nowSeconds.value = Math.floor(Date.now() / 1000) }, 1000)
+    tickTimer = setInterval(() => {
+        nowSeconds.value = Math.floor(Date.now() / 1000)
+    }, 1000)
 }
 
 const closeReminder = () => {
@@ -171,7 +179,9 @@ onUnload(() => clearTimers())
     color: var(--md-on-surface-variant);
     cursor: pointer;
     border-radius: var(--md-radius-full);
-    &:hover { background: var(--md-surface-variant); }
+    &:hover {
+        background: var(--md-surface-variant);
+    }
 }
 
 .reminder-mini__body {
