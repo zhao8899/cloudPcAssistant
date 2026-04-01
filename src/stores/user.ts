@@ -30,7 +30,7 @@ export const useUserStore = defineStore({
             cache.set(TOKEN_KEY, token)
         },
         logout() {
-            this.token = ''
+            this.token = null
             this.userInfo = {}
             cache.remove(TOKEN_KEY)
         }

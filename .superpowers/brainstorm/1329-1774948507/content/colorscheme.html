@@ -1,0 +1,58 @@
+<h2>Material Design 3 主色方案</h2>
+<p class="subtitle">MD3 从单一 Primary 种子色自动生成完整色彩系统（Surface/On-Surface/Container 等）。选一个主色调</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="blue" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:linear-gradient(135deg,#1565C0 0%,#1976D2 100%);height:100px;display:flex;align-items:center;justify-content:center;gap:8px;">
+      <div style="width:36px;height:36px;border-radius:50%;background:#1976D2;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3)"></div>
+      <div style="width:28px;height:28px;border-radius:50%;background:#BBDEFB;border:2px solid rgba(255,255,255,.6)"></div>
+      <div style="width:22px;height:22px;border-radius:50%;background:#E3F2FD;border:2px solid rgba(255,255,255,.4)"></div>
+    </div>
+    <div class="card-body">
+      <h3>🔵 深蓝（Blue 700）</h3>
+      <p>延续现有主色 #1976D2，科技感强，云计算行业首选，用户已熟悉。Primary Container 为 #BBDEFB。</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="indigo" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:linear-gradient(135deg,#283593 0%,#3949AB 100%);height:100px;display:flex;align-items:center;justify-content:center;gap:8px;">
+      <div style="width:36px;height:36px;border-radius:50%;background:#3949AB;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3)"></div>
+      <div style="width:28px;height:28px;border-radius:50%;background:#C5CAE9;border:2px solid rgba(255,255,255,.6)"></div>
+      <div style="width:22px;height:22px;border-radius:50%;background:#E8EAF6;border:2px solid rgba(255,255,255,.4)"></div>
+    </div>
+    <div class="card-body">
+      <h3>🟣 靛蓝（Indigo 600）</h3>
+      <p>偏紫蓝 #3949AB，兼顾专业与现代，与 MD3 默认 baseline 接近，视觉层次更丰富。Primary Container 为 #C5CAE9。</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="teal" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:linear-gradient(135deg,#00695C 0%,#00897B 100%);height:100px;display:flex;align-items:center;justify-content:center;gap:8px;">
+      <div style="width:36px;height:36px;border-radius:50%;background:#00897B;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3)"></div>
+      <div style="width:28px;height:28px;border-radius:50%;background:#B2DFDB;border:2px solid rgba(255,255,255,.6)"></div>
+      <div style="width:22px;height:22px;border-radius:50%;background:#E0F2F1;border:2px solid rgba(255,255,255,.4)"></div>
+    </div>
+    <div class="card-body">
+      <h3>🟢 青绿（Teal 600）</h3>
+      <p>清新的 #00897B，云平台/SaaS 常见配色，冷静专业，Primary Container 为 #B2DFDB。与蓝色系差异明显，焕新感强。</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="purple" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:linear-gradient(135deg,#4527A0 0%,#6750A4 100%);height:100px;display:flex;align-items:center;justify-content:center;gap:8px;">
+      <div style="width:36px;height:36px;border-radius:50%;background:#6750A4;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3)"></div>
+        <div style="width:28px;height:28px;border-radius:50%;background:#EADDFF;border:2px solid rgba(255,255,255,.6)"></div>
+      <div style="width:22px;height:22px;border-radius:50%;background:#F3EDF7;border:2px solid rgba(255,255,255,.4)"></div>
+    </div>
+    <div class="card-body">
+      <h3>🔮 紫罗兰（MD3 Baseline）</h3>
+      <p>MD3 官方默认色 #6750A4，最符合 Material You 原汁原味，Primary Container 为 #EADDFF。现代感最强，但与现有品牌差异最大。</p>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top:20px;padding:14px;background:#f8f9fa;border-radius:10px;font-size:13px;color:#6b7280;">
+  💡 选定主色后，MD3 会自动推导出 Secondary (#625B71)、Tertiary (#7D5260)、Error (#B3261E) 及全套 Surface/Container 色阶，无需手动配置每个色值。
+</div>

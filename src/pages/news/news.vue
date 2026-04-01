@@ -4,19 +4,21 @@
             <view class="news__title">资讯</view>
         </view>
 
-        <tabs
-            :current="current"
-            @change="handleChange"
-            height="80"
-            bar-width="60"
-            :barStyle="{ bottom: '0' }"
-        >
-            <tab v-for="(item, i) in tabList" :key="i" :name="item.name">
-                <view class="news-list">
-                    <news-list :cid="item.id" :i="i" :index="current"></news-list>
-                </view>
-            </tab>
-        </tabs>
+        <view class="news__content">
+            <tabs
+                :current="current"
+                @change="handleChange"
+                height="80"
+                bar-width="60"
+                :barStyle="{ bottom: '0' }"
+            >
+                <tab v-for="(item, i) in tabList" :key="i" :name="item.name">
+                    <view class="news-list">
+                        <news-list :cid="item.id" :i="i" :index="current"></news-list>
+                    </view>
+                </tab>
+            </tabs>
+        </view>
 
         <desktop-bottom-nav />
     </view>
@@ -65,6 +67,13 @@ onLoad(() => {
         line-height: 1.2;
         font-weight: 500;
         color: var(--md-primary);
+    }
+
+    &__content {
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
     }
 
     &-list {

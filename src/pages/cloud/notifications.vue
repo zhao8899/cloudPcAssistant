@@ -1,7 +1,7 @@
 <template>
     <view class="page">
         <view class="nav">
-            <view class="nav__back" @click="back">‹</view>
+            <view class="nav__back" @click="back">←</view>
             <view class="nav__title">通知中心</view>
         </view>
 
@@ -93,13 +93,18 @@ onShow(() => {
 }
 
 .nav__back {
-    width: 40px;
-    font-size: 28px;
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
     color: var(--md-on-surface);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    border-radius: var(--md-radius-full);
+    flex-shrink: 0;
+    &:hover { background: var(--md-surface-variant); }
+    &:active { background: var(--md-outline-variant); }
 }
 
 .nav__title {

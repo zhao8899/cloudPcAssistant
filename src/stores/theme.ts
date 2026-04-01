@@ -22,30 +22,30 @@ export const useThemeStore = defineStore({
     }),
     actions: {
         async getTheme() {
-            const data = await getDecorate({
-                id: 5
-            })
-            const {
-                themeColor1,
-                themeColor2,
-                buttonColor,
-                navigationBarColor,
-                topTextColor
-            } = JSON.parse(data.data)
-            this.primaryColor = themeColor1
-            this.minorColor = themeColor2
-            this.btnColor = buttonColor
-            this.navColor = topTextColor === 'white' ? '#ffffff' : '#000000'
-            this.navBgColor = navigationBarColor || themeColor1
-            this.vars = generateVars(
-                {
-                    primary: themeColor1
-                },
-                {
-                    '--color-minor': themeColor2,
-                    '--color-btn-text': buttonColor
-                }
-            )
+            try {
+                const data = await getDecorate({ id: 5 })
+                const {
+                    themeColor1,
+                    themeColor2,
+                    buttonColor,
+                    navigationBarColor,
+                    topTextColor
+                } = JSON.parse(data.data)
+                this.primaryColor = themeColor1
+                this.minorColor = themeColor2
+                this.btnColor = buttonColor
+                this.navColor = topTextColor === 'white' ? '#ffffff' : '#000000'
+                this.navBgColor = navigationBarColor || themeColor1
+                this.vars = generateVars(
+                    { primary: themeColor1 },
+                    {
+                        '--color-minor': themeColor2,
+                        '--color-btn-text': buttonColor
+                    }
+                )
+            } catch {
+                // Theme fetch/parse failure is non-fatal; the app renders with default colors.
+            }
         },
         setTheme(color: string) {
             this.primaryColor = color

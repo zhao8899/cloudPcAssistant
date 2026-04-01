@@ -5,7 +5,6 @@ import { getToken } from "../auth";
 import { RequestCodeEnum, RequestMethodsEnum } from "@/enums/requestEnums";
 import { useUserStore } from "@/stores/user";
 import appConfig from "@/config";
-import { getClient } from "../client";
 
 const requestHooks: RequestHooks = {
     requestInterceptorsHook(options, config) {
@@ -18,12 +17,11 @@ const requestHooks: RequestHooks = {
             options.url = `${baseUrl}${options.url}`;
         }
         const token = getToken();
-        // 添加token
-        if (withToken && !options.header.token) {
+        // 添加token（token 为空时不发送，避免将 null/undefined 写入 header）
+        if (withToken && !options.header.token && token) {
             options.header.token = token;
         }
         options.header.version = appConfig.version;
-        // options.header.terminal = getClient();
         return options;
     },
     async responseInterceptorsHook(response, config) {
@@ -49,7 +47,7 @@ const requestHooks: RequestHooks = {
 
             case RequestCodeEnum.TOKEN_INVALID:
                 logout();
-                if (isAuth && !getToken()) {
+                if (isAuth) {
                     uni.navigateTo({
                         url: "/pages/login/login",
                     });
@@ -78,7 +76,7 @@ const defaultOptions: HttpRequestOptions = {
     // 需要对返回数据进行处理
     isTransformResponse: true,
     // 接口拼接地址
-    urlPrefix: "api",
+    urlPrefix: appConfig.urlPrefix,
     // 忽略重复请求
     ignoreCancel: false,
     // 是否携带token

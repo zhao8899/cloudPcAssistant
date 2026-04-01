@@ -53,7 +53,8 @@ router.beforeEach(async (to) => {
 
 router.afterEach((to) => {
     const userStore = useUserStore()
-    if (!userStore.isLogin && !to.meta.white) {
+    // Exclude the login page itself to prevent overwriting a saved back-URL with '/pages/login/login'
+    if (!userStore.isLogin && !to.meta.white && to.path !== '/pages/login/login') {
         cache.set(BACK_URL, to.fullPath)
     }
 })

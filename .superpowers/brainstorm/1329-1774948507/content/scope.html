@@ -1,0 +1,63 @@
+<h2>UI 改版范围确认</h2>
+<p class="subtitle">项目目前存在两套视觉体系，Google Material Design 改版有三种切入方式，选一种</p>
+
+<div class="section">
+  <div class="label">现状：两套并存的设计体系</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px;">
+    <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:12px;padding:16px;">
+      <div style="font-weight:700;color:#0369a1;margin-bottom:8px;">✅ 新风格（14个页面）</div>
+      <div style="font-size:13px;color:#0c4a6e;line-height:1.8;">
+        desktop/home · desktop/reminder<br>
+        cloud/resources · cloud/detail<br>
+        cloud/orders · cloud/order-detail<br>
+        cloud/purchase · cloud/renew<br>
+        cloud/rename · cloud/notifications<br>
+        login · user<br>
+        <hr style="border-color:#bae6fd;margin:8px 0;">
+        <span style="color:#0284c7;">蓝色渐变导航 · 圆角卡片 · rpx 单位 · 硬编码色值</span>
+      </div>
+    </div>
+    <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;padding:16px;">
+      <div style="font-weight:700;color:#c2410c;margin-bottom:8px;">⚠️ 旧风格（12个页面）</div>
+      <div style="font-size:13px;color:#7c2d12;line-height:1.8;">
+        register · user_set<br>
+        user_wallet · recharge<br>
+        recharge_record · 404<br>
+        change_password · user_data<br>
+        forget_pwd · agreement<br>
+        customer_service · as_us<br>
+        <hr style="border-color:#fed7aa;margin:8px 0;">
+        <span style="color:#ea580c;">Tailwind 工具类 · 系统原生导航 · 乱码标题</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>仅修乱码 + 设计 Token 统一</h3>
+      <p>修复 pages.json 的 20 处乱码；将两套体系的色值、字号、间距统一提取为 CSS 变量；不改页面结构，只做 token 层面的规范化。</p>
+      <p style="color:#6b7280;font-size:13px;">工作量：小 · 风险：低 · 视觉变化：轻微</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>修乱码 + 旧风格页面升级为 Material Design 3</h3>
+      <p>修复乱码；保留新风格页面不动；将 12 个旧 Tailwind 页面重写为 Material Design 3（卡片、按钮、表单、配色符合 MD3 规范）；提取统一 design token。</p>
+      <p style="color:#6b7280;font-size:13px;">工作量：中 · 风险：中 · 视觉变化：旧页面明显提升</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>全页面 Material Design 3 重设计</h3>
+      <p>修复乱码；全部 26 个功能页面（含新风格页面）统一重写为 Material Design 3 规范，建立完整 design token 体系（颜色角色、排版比例、间距、海拔阴影），所有页面视觉高度一致。</p>
+      <p style="color:#6b7280;font-size:13px;">工作量：大 · 风险：中 · 视觉变化：全面焕新</p>
+    </div>
+  </div>
+</div>

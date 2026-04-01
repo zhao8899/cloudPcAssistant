@@ -110,7 +110,7 @@ export const sliceArray = (array: any[], size: number) => {
  * @return {Boolean}
  */
 export const isEmpty = (value: unknown) => {
-    return value == null && typeof value == 'undefined'
+    return value === null || typeof value === 'undefined'
 }
 
 /**
@@ -124,7 +124,6 @@ export function objectToQuery(params: Record<string, any>): string {
         const value = params[props]
         const part = encodeURIComponent(props) + '='
         if (!isEmpty(value)) {
-            console.log(encodeURIComponent(props), isObject(value))
             if (isObject(value)) {
                 for (const key of Object.keys(value)) {
                     if (!isEmpty(value[key])) {

@@ -122,9 +122,8 @@ import { getPayWay, prepay, getPayResult } from '@/api/pay'
 import { computed, ref, watch } from 'vue'
 import { useLockFn } from '@/hooks/useLockFn'
 import { series } from '@/utils/util'
-import { ClientEnum, PageStatusEnum, PayStatusEnum } from '@/enums/appEnums'
+import { PageStatusEnum, PayStatusEnum } from '@/enums/appEnums'
 import { useUserStore } from '@/stores/user'
-import { client } from '@/utils/client'
 /*
 页面参数 orderId：订单id，from：订单来源
 */
@@ -205,27 +204,6 @@ const selectPayWay = (pay: number) => {
     payWay.value = pay
 }
 const payment = (() => {
-    // 查询是否绑定微信
-    const checkIsBindWx = async () => {
-        if (
-            userStore.userInfo.is_auth == 0 &&
-            [ClientEnum.OA_WEIXIN, ClientEnum.MP_WEIXIN].includes(client) &&
-            payWay.value == PayWayEnum.WECHAT
-        ) {
-            const res: any = await uni.showModal({
-                title: '温馨提示',
-                content: '当前账号未绑定微信，无法完成支付',
-                confirmText: '去绑定'
-            })
-            if (res.confirm) {
-                uni.navigateTo({
-                    url: '/pages/user_set/user_set'
-                })
-            }
-            return Promise.reject()
-        }
-    }
-
     // 调用预支付
     const prepayTask = async () => {
         uni.showLoading({
@@ -250,7 +228,7 @@ const payment = (() => {
             return Promise.reject(error)
         }
     }
-    return series(checkIsBindWx, prepayTask, payTask)
+    return series(prepayTask, payTask)
 })()
 const { isLock, lockFn: handlePay } = useLockFn(async () => {
     try {

@@ -87,13 +87,6 @@
                             >
                                 在线沟通
                             </view>
-                            <view
-                                v-if="supportMobile"
-                                class="support-actions__button"
-                                @click="showSupportPhone"
-                            >
-                                电话咨询
-                            </view>
                         </view>
 
                         <view class="reminder-card">
@@ -280,17 +273,6 @@ const canQuickRenew = (item: CloudResourceItem | null) => {
 
 const getStatusClass = (item: CloudResourceItem) => {
     return String(item?.status_class || 'plain')
-}
-
-const showSupportPhone = async () => {
-    const phone = supportMobile.value
-    if (!phone) return
-    await uni.showModal({
-        title: '客服电话',
-        content: phone,
-        showCancel: false,
-        confirmText: '知道了'
-    })
 }
 
 const openReminderWindow = async () => {
@@ -583,8 +565,7 @@ onUnload(() => {
 .support-card__meta  { color: var(--md-on-primary-container); opacity: 0.78; }
 
 .support-actions {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    display: flex;
     gap: 8px;
     margin-top: 10px;
 }

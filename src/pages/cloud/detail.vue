@@ -1,7 +1,7 @@
 <template>
     <view class="page">
         <view class="nav">
-            <view class="nav__back" @click="back">‹</view>
+            <view class="nav__back" @click="back">←</view>
             <view class="nav__title">云电脑详情</view>
         </view>
 
@@ -398,16 +398,19 @@ const copyText = (value: string, message = '已复制') => {
 }
 
 .nav__back {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
+    color: var(--md-on-surface);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
-    color: var(--md-on-surface);
-    border-radius: var(--md-radius-full);
     cursor: pointer;
-    &:active { background: var(--md-surface-variant); }
+    border-radius: var(--md-radius-full);
+    flex-shrink: 0;
+    &:hover { background: var(--md-surface-variant); }
+    &:active { background: var(--md-outline-variant); }
+}
 }
 
 .nav__title {

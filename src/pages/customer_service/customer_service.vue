@@ -12,7 +12,7 @@
         <view class="chat-dialog">
             <view class="chat-dialog__header">
                 <view class="chat-dialog__header-main">
-                    <view class="chat-dialog__back" @click="goBack">‹</view>
+                    <view class="chat-dialog__back" @click="goBack">←</view>
                     <view>
                         <view class="chat-dialog__title">{{ supportTitle }}</view>
                         <view class="chat-dialog__subtitle">{{ supportSubtitle }}</view>
@@ -46,29 +46,16 @@
             </view>
 
             <view class="chat-dialog__composer">
-                <view class="composer-toolbar">
-                    <view class="composer-toolbar__icon">文</view>
-                    <view class="composer-toolbar__icon">图</view>
-                    <view class="composer-toolbar__icon">附</view>
-                </view>
-
                 <view class="composer-input">
                     <textarea
                         v-model="draftMessage"
                         class="composer-input__field"
                         maxlength="500"
-                        placeholder="请输入消息，当前桌面端优先引导到电话或二维码联系。"
+                        placeholder="请输入消息内容..."
                     />
                     <view class="composer-input__footer">
                         <text>{{ draftLength }}/500</text>
                         <view class="composer-input__actions">
-                            <view
-                                v-if="supportMobile"
-                                class="composer-input__button composer-input__button--ghost"
-                                @click="showPhone"
-                            >
-                                电话咨询
-                            </view>
                             <view class="composer-input__button" @click="submitDraft">发送</view>
                         </view>
                     </view>
@@ -136,16 +123,6 @@ const getData = async () => {
 }
 
 const goBack = () => navigateDesktopBack('/pages/desktop/home')
-
-const showPhone = async () => {
-    if (!supportMobile.value) return
-    await uni.showModal({
-        title: '客服电话',
-        content: supportMobile.value,
-        showCancel: false,
-        confirmText: '知道了'
-    })
-}
 
 const submitDraft = async () => {
     const content = draftMessage.value.trim()
@@ -309,26 +286,6 @@ getData()
     padding: 14px 16px;
     border-top: 1px solid var(--md-outline-variant);
     background: var(--md-surface);
-}
-
-.composer-toolbar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 10px;
-}
-
-.composer-toolbar__icon {
-    width: 32px;
-    height: 32px;
-    border-radius: var(--md-radius-xs);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--md-surface-variant);
-    color: var(--md-on-surface-variant);
-    font-size: 12px;
-    font-weight: 500;
 }
 
 .composer-input {

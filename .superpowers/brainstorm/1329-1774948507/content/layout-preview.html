@@ -1,0 +1,159 @@
+<h2>MD3 深蓝方案 — 页面风格对比</h2>
+<p class="subtitle">左侧为现有风格，右侧为 Material Design 3 改版方向。确认整体感觉是否符合预期</p>
+
+<div class="split" style="gap:24px;align-items:start;">
+
+  <!-- 现有风格 -->
+  <div>
+    <div class="label" style="margin-bottom:8px;">现有风格（桌面工作台）</div>
+    <div class="mockup" style="padding:0;overflow:hidden;border-radius:16px;">
+      <div style="background:linear-gradient(135deg,#2563eb 0%,#4f46e5 100%);padding:14px 16px;display:flex;align-items:center;gap:10px;">
+        <div style="width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.5)"></div>
+        <span style="color:#fff;font-weight:900;font-size:15px;">工作台</span>
+        <div style="margin-left:auto;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;">
+          <span style="color:#fff;font-size:12px;">🔔</span>
+        </div>
+      </div>
+      <div style="background:#f4f7fb;padding:14px;display:flex;flex-direction:column;gap:10px;">
+        <!-- 状态卡片 -->
+        <div style="background:#fff;border-radius:16px;padding:14px;box-shadow:0 4px 16px rgba(15,23,42,.06);">
+          <div style="font-size:11px;color:#64748b;margin-bottom:6px;font-weight:600;">云电脑实例</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:20px;font-weight:900;color:#0f172a;">3</span>
+            <span style="font-size:11px;background:#eff6ff;color:#2563eb;padding:3px 8px;border-radius:20px;font-weight:700;">运行中</span>
+          </div>
+        </div>
+        <!-- 资源列表 -->
+        <div style="background:#fff;border-radius:16px;padding:14px;box-shadow:0 4px 16px rgba(15,23,42,.06);">
+          <div style="font-size:11px;color:#64748b;margin-bottom:8px;font-weight:600;">最近资源</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:#f8fafc;border-radius:10px;">
+              <span style="font-size:12px;font-weight:700;color:#0f172a;">实例 001</span>
+              <span style="font-size:10px;color:#059669;font-weight:700;">● 运行中</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:#f8fafc;border-radius:10px;">
+              <span style="font-size:12px;font-weight:700;color:#0f172a;">实例 002</span>
+              <span style="font-size:10px;color:#64748b;font-weight:700;">● 已停止</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 底部导航 -->
+      <div style="background:#fff;border-top:1px solid #f1f5f9;display:flex;justify-content:space-around;padding:10px 0;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+          <div style="width:40px;height:22px;background:#dbeafe;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:12px;">🏠</div>
+          <span style="font-size:9px;font-weight:700;color:#2563eb;">工作台</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+          <span style="font-size:16px;">🖥</span>
+          <span style="font-size:9px;color:#94a3b8;">云资源</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+          <span style="font-size:16px;">📰</span>
+          <span style="font-size:9px;color:#94a3b8;">资讯</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+          <span style="font-size:16px;">👤</span>
+          <span style="font-size:9px;color:#94a3b8;">我的</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MD3 新风格 -->
+  <div>
+    <div class="label" style="margin-bottom:8px;">Material Design 3 改版方向</div>
+    <div class="mockup" style="padding:0;overflow:hidden;border-radius:16px;border:2px solid #1976D2;">
+      <!-- MD3 Top App Bar: 白底 + 主色标题 -->
+      <div style="background:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #E8EDF5;">
+        <span style="color:#1976D2;font-weight:700;font-size:15px;letter-spacing:.2px;">工作台</span>
+        <div style="margin-left:auto;width:32px;height:32px;border-radius:50%;background:#EEF4FD;display:flex;align-items:center;justify-content:center;">
+          <span style="font-size:14px;">🔔</span>
+        </div>
+      </div>
+      <div style="background:#F3F6FD;padding:14px;display:flex;flex-direction:column;gap:10px;">
+        <!-- MD3 Filled Card -->
+        <div style="background:#D1E4FF;border-radius:12px;padding:14px;">
+          <div style="font-size:11px;color:#001D36;margin-bottom:6px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;">云电脑实例</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:22px;font-weight:700;color:#001D36;">3</span>
+            <span style="font-size:11px;background:#1976D2;color:#fff;padding:4px 10px;border-radius:20px;font-weight:600;">运行中</span>
+          </div>
+        </div>
+        <!-- MD3 Elevated Card -->
+        <div style="background:#fff;border-radius:12px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.08);">
+          <div style="font-size:11px;color:#535F70;margin-bottom:8px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;">最近资源</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:#EEF4FD;border-radius:8px;">
+              <span style="font-size:12px;font-weight:600;color:#001D36;">实例 001</span>
+              <span style="font-size:10px;color:#1976D2;font-weight:700;">● 运行中</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:#F3F6FD;border-radius:8px;">
+              <span style="font-size:12px;font-weight:600;color:#001D36;">实例 002</span>
+              <span style="font-size:10px;color:#74777F;font-weight:600;">● 已停止</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- MD3 Navigation Bar -->
+      <div style="background:#fff;border-top:1px solid #E8EDF5;display:flex;justify-content:space-around;padding:8px 0 10px;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+          <div style="width:64px;height:28px;background:#D1E4FF;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:14px;">🏠</div>
+          <span style="font-size:9px;font-weight:700;color:#1976D2;">工作台</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+          <div style="width:64px;height:28px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:14px;">🖥</div>
+          <span style="font-size:9px;color:#535F70;">云资源</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+          <div style="width:64px;height:28px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:14px;">📰</div>
+          <span style="font-size:9px;color:#535F70;">资讯</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+          <div style="width:64px;height:28px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:14px;">👤</div>
+          <span style="font-size:9px;color:#535F70;">我的</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top:20px;">
+  <div class="label" style="margin-bottom:12px;">核心变化说明</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+    <div style="background:#EEF4FD;border-radius:10px;padding:12px;font-size:12px;">
+      <div style="font-weight:700;color:#1976D2;margin-bottom:4px;">顶部导航栏</div>
+      <div style="color:#001D36;">渐变蓝背景 → 白底 + 主色文字，符合 MD3 Top App Bar 规范</div>
+    </div>
+    <div style="background:#EEF4FD;border-radius:10px;padding:12px;font-size:12px;">
+      <div style="font-weight:700;color:#1976D2;margin-bottom:4px;">卡片系统</div>
+      <div style="color:#001D36;">大圆角强阴影 → MD3 三种卡片类型（Filled/Elevated/Outlined）</div>
+    </div>
+    <div style="background:#EEF4FD;border-radius:10px;padding:12px;font-size:12px;">
+      <div style="font-weight:700;color:#1976D2;margin-bottom:4px;">底部导航</div>
+      <div style="color:#001D36;">无指示器 → MD3 Pill indicator（选中项有蓝色胶囊背景）</div>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top:16px;padding:14px;background:#FFF8E1;border-radius:10px;font-size:13px;color:#5D4037;">
+  ⚡ 这只是核心视觉方向示意图。确认后将进入详细设计规范（Design Token、Typography Scale、组件库规范）。
+</div>
+
+<div class="options" style="margin-top:20px;">
+  <div class="option" data-choice="approve" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content">
+      <h3>方向确认，继续</h3>
+      <p>采用 MD3 深蓝方案：白底顶栏 + Primary Container 卡片 + MD3 Navigation Bar。进入完整设计规范阶段。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="adjust" onclick="toggleSelect(this)">
+    <div class="letter">✎</div>
+    <div class="content">
+      <h3>需要调整</h3>
+      <p>我想保留某些现有元素（如渐变顶栏）或调整局部风格。</p>
+    </div>
+  </div>
+</div>

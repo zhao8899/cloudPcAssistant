@@ -6,8 +6,8 @@ This repository is a UniApp/Vue 3 client focused on cloud PC user flows. Main ap
 ## Build, Test, and Development Commands
 Use Node.js `>=16.16.0`; both `scripts/develop.js` and `scripts/publish.js` enforce that baseline.
 
-- `node scripts/develop.js`: prompts for `dev:mp-weixin` or `dev:h5` and runs the matching npm script.
-- `node scripts/publish.js`: prompts for `build:mp-weixin` or `build:h5`.
+- `node scripts/develop.js`: prompts to run `dev:desktop:web` (H5 frontend Vite dev server).
+- `node scripts/publish.js`: prompts to run `build:desktop:web` (production H5 build).
 - `node scripts/release.mjs`: copies `dist/build/h5` into `../server/public/mobile` after an H5 build.
 
 These wrappers assume the missing project-level `package.json` defines the underlying npm scripts. Verify those scripts before changing the release flow.

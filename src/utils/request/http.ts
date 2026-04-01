@@ -17,15 +17,24 @@ export default class HttpRequest {
         if (!retryCount || options.method?.toUpperCase() == RequestMethodsEnum.POST) {
             return Promise.reject()
         }
-        uni.showLoading({ title: '加载中...' })
         config.hasRetryCount = config.hasRetryCount ?? 0
         if (config.hasRetryCount >= retryCount) {
             return Promise.reject()
         }
         config.hasRetryCount++
-        config.requestHooks.requestInterceptorsHook = (options) => options
+        uni.showLoading({ title: '加载中...' })
+        // Use a new config object to avoid mutating the shared requestHooks reference.
+        // The options are already fully formed (URL prefixed, token set), so skip the
+        // request interceptor to prevent double-prefixing.
+        const retryConfig: RequestConfig = {
+            ...config,
+            requestHooks: {
+                ...config.requestHooks,
+                requestInterceptorsHook: (opts: RequestOptions) => opts
+            }
+        }
         return new Promise((resolve) => setTimeout(resolve, retryTimeout))
-            .then(() => this.request(options, config))
+            .then(() => this.request(options, retryConfig))
             .finally(() => uni.hideLoading())
     }
     /**

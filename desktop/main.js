@@ -15,6 +15,7 @@ let reminderWindow = null
 let tray = null
 let frontendServer = null
 let frontendOrigin = ''
+let isQuitting = false
 
 const gotTheLock = app.requestSingleInstanceLock()
 if (!gotTheLock) {
@@ -44,8 +45,9 @@ function joinDesktopUrl(base, route) {
 }
 
 function getTrayIcon() {
+    // 32x32 solid #1976D2 blue PNG icon
     return nativeImage.createFromDataURL(
-        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAAwUlEQVR4AWP4TwAw/P//P4P5n4GB4T8DA8P/3xgYGP5nYGBg+J+BgYHhPwMDw/8MDAwM/2dgYGD4n4GBgeE/AwPD/w0MDAz/Z2BgYPifgYGB4T8DA8P/DQwMDP9nYGBg+J+BgYHhPwMDw/8NDAwM/2dgYGD4n4GBgeE/AwPD/w0MDAz/Z2BgYKBsYGRkZGT4T0g2QJqBiYGB4T8g2QakGZiYmBj+E9INkGZAmoGJgYHhPyDZD6QZmJiYGP4T0g0A9bUCpzQwDFcAAAAASUVORK5CYII='
+        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAK0lEQVR4nGOQLLtEU8QwasGoBaMWjFowasGoBaMWjFowasGoBaMWlA0RCwBdoYRMXgoDugAAAABJRU5ErkJggg=='
     )
 }
 
@@ -202,8 +204,12 @@ function createReminderWindow() {
     })
 
     reminderWindow.webContents.on('will-navigate', (event, url) => {
-        if (!frontendOrigin) return
-        if (url.startsWith(frontendOrigin)) return
+        if (!frontendOrigin) {
+            event.preventDefault()
+            return
+        }
+        const urlOrigin = (() => { try { return new URL(url).origin } catch { return '' } })()
+        if (urlOrigin === frontendOrigin) return
         event.preventDefault()
         if (isSafeExternalUrl(url)) {
             shell.openExternal(url)
@@ -217,7 +223,7 @@ function createReminderWindow() {
     })
 
     reminderWindow.on('close', (event) => {
-        if (app.isQuiting) return
+        if (isQuitting) return
         event.preventDefault()
         reminderWindow.hide()
     })
@@ -296,8 +302,12 @@ function createMainWindow() {
     })
 
     mainWindow.webContents.on('will-navigate', (event, url) => {
-        if (!frontendOrigin) return
-        if (url.startsWith(frontendOrigin)) return
+        if (!frontendOrigin) {
+            event.preventDefault()
+            return
+        }
+        const urlOrigin = (() => { try { return new URL(url).origin } catch { return '' } })()
+        if (urlOrigin === frontendOrigin) return
         event.preventDefault()
         if (isSafeExternalUrl(url)) {
             shell.openExternal(url)
@@ -305,7 +315,7 @@ function createMainWindow() {
     })
 
     mainWindow.on('close', (event) => {
-        if (app.isQuiting) return
+        if (isQuitting) return
         event.preventDefault()
         mainWindow.hide()
     })
@@ -369,7 +379,7 @@ app.whenReady().then(async () => {
 })
 
 app.on('before-quit', () => {
-    app.isQuiting = true
+    isQuitting = true
     if (reminderWindow) {
         reminderWindow.destroy()
         reminderWindow = null

@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bash \"C:\\\\Users\\\\Zhiyuan\\\\.claude\\\\plugins\\\\cache\\\\claude-plugins-official\\\\superpowers\\\\5.0.6\\\\skills\\\\brainstorming\\\\scripts\\\\start-server.sh\" --project-dir \"D:/worksapce/cloudPcAssistant\")",
+      "Bash(xargs cat:*)",
+      "Bash(node -e \"JSON.parse\\(require\\(''fs''\\).readFileSync\\(''pages.json'',''utf8''\\)\\); console.log\\(''OK''\\)\")",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(npm run:*)",
+      "Bash(npm install:*)",
+      "Bash(npm --prefix desktop run dist)",
+      "Bash(CSC_IDENTITY_AUTO_DISCOVERY=false npm --prefix desktop run dist)",
+      "Bash(ls /d/worksapce/cloudPcAssistant/desktop/dist/*.exe)",
+      "Bash(git push:*)",
+      "Bash(node -e \":*)",
+      "Bash(python3:*)",
+      "Bash(for f:*)",
+      "Bash(do)",
+      "Bash(sed -i 's/>‹</>←</g' \"$f\")",
+      "Bash(done)"
+    ]
+  }
+}
