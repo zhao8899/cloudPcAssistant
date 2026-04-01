@@ -45,9 +45,9 @@ function joinDesktopUrl(base, route) {
 }
 
 function getTrayIcon() {
-    // 32x32 solid #1976D2 blue PNG icon
+    // 32x32 blue rounded-square with white cloud — matches primary brand color #1976D2
     return nativeImage.createFromDataURL(
-        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAK0lEQVR4nGOQLLtEU8QwasGoBaMWjFowasGoBaMWjFowasGoBaMWlA0RCwBdoYRMXgoDugAAAABJRU5ErkJggg=='
+        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAeUlEQVR4nO3Xuw3AIAwEUK/BogyahUA0aYIjwOdPFJ/khoJ7okBAxKTUqyGH61Et3cJYlU8R1uUPxL8BXuU3QrrBiDngLeqAlagATgIDSCIGIJKAYwAy3zyBBIS4B0IAZqCddTgAOQnwB7g/ShMQ4mtGET6n2hiuqAMpOzo/e2pmYAAAAABJRU5ErkJggg=='
     )
 }
 

@@ -62,8 +62,6 @@
                 </view>
             </view>
         </view>
-
-        <desktop-bottom-nav />
     </view>
 
     <view v-else class="customer-service">
@@ -76,7 +74,6 @@
 </template>
 
 <script setup lang="ts">
-import DesktopBottomNav from '@/components/desktop-bottom-nav/desktop-bottom-nav.vue'
 import { getDecorate } from '@/api/shop'
 import { useAppStore } from '@/stores/app'
 import { isDesktopClient, navigateDesktopBack } from '@/utils/desktop'
@@ -145,14 +142,14 @@ getData()
 <style scoped lang="scss">
 .customer-desktop {
     min-height: 100vh;
-    padding: 18px 18px 88px;
+    padding: 12px;
     box-sizing: border-box;
     background: var(--md-background);
 }
 
 .chat-dialog {
     max-width: 920px;
-    height: calc(100vh - 124px);
+    height: calc(100vh - 24px);
     margin: 0 auto;
     border-radius: var(--md-radius-lg);
     background: var(--md-surface);

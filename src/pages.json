@@ -61,7 +61,7 @@
         {
             "path": "pages/customer_service/customer_service",
             "style": {
-                "navigationBarTitleText": "联系客服"
+                "navigationStyle": "custom"
             },
             "meta": {
                 "white": true
@@ -85,7 +85,7 @@
         {
             "path": "pages/attribution/attribution",
             "style": {
-                "navigationBarTitleText": "归因设置"
+                "navigationStyle": "custom"
             },
             "meta": {
                 "auth": true

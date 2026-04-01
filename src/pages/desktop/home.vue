@@ -7,8 +7,8 @@
                 </view>
                 <view class="action-button" @click="go('/pages/news/news')">资讯</view>
                 <view class="floating-entry" @click="openReminderWindow">
-                    <image class="floating-entry__image" src="/static/images/icon/icon_visit.png" mode="aspectFit" />
-                    <view class="floating-entry__tooltip">悬窗</view>
+                    <view class="floating-entry__icon" v-html="iconPip" />
+                    <view class="floating-entry__tooltip">悬窗提醒</view>
                 </view>
             </view>
 
@@ -67,9 +67,6 @@
                     <view class="panel panel--support">
                         <view class="panel__head">
                             <view class="panel__title">专属客服</view>
-                            <view class="panel__link" @click="go('/pages/customer_service/customer_service')">
-                                打开客服
-                            </view>
                         </view>
 
                         <view class="support-card">
@@ -152,6 +149,8 @@ type SupportContent = {
     mobile?: string
     time?: string
 }
+
+const iconPip = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 7h-8v6h8V7zm2-4H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14z"/></svg>`
 
 const appStore = useAppStore()
 const userStore = useUserStore()
@@ -366,9 +365,14 @@ onUnload(() => {
     &:active { background: var(--md-surface-variant); }
 }
 
-.floating-entry__image {
-    width: 18px;
-    height: 18px;
+.floating-entry__icon {
+    width: 20px;
+    height: 20px;
+    color: var(--md-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    :deep(svg) { fill: currentColor; }
 }
 
 .floating-entry__tooltip {

@@ -23,6 +23,7 @@ const PAGE_TITLES: Record<string, string> = {
     'pages/search/search': '搜索',
     'pages/as_us/as_us': '关于我们',
     'pages/agreement/agreement': '协议',
+    'pages/attribution/attribution': '代理商设置',
     'pages/bind_mobile/bind_mobile': '绑定手机号',
     'pages/payment_result/payment_result': '支付结果',
     'packages/pages/user_wallet/user_wallet': '我的钱包',

@@ -17,7 +17,8 @@
       "Bash(for f:*)",
       "Bash(do)",
       "Bash(sed -i 's/>‹</>←</g' \"$f\")",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(1)"
     ]
   }
 }

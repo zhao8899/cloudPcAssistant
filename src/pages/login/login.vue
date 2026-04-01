@@ -104,18 +104,13 @@
                 </view>
 
                 <view class="desktop-login__stack">
-                    <u-button
-                        type="primary"
+                    <view
+                        class="desktop-login__submit"
+                        :class="{ 'is-disabled': !disableStyle }"
                         @click="handleLogin()"
-                        :customStyle="{
-                            height: '88rpx',
-                            borderRadius: '16rpx',
-                            opacity: disableStyle ? '1' : '0.55'
-                        }"
-                        hover-class="none"
                     >
                         登录
-                    </u-button>
+                    </view>
                 </view>
 
                 <view class="desktop-login__footer">
@@ -414,8 +409,34 @@ page {
     box-shadow: var(--md-elevation-1);
 }
 
-.desktop-login__stack + .desktop-login__stack {
-    margin-top: 12px;
+.desktop-login__stack {
+    margin-top: 16px;
+}
+
+.desktop-login__submit {
+    width: 100%;
+    height: 48px;
+    border-radius: var(--md-radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--md-primary);
+    color: var(--md-on-primary);
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: opacity 0.15s, box-shadow 0.15s;
+    box-shadow: var(--md-elevation-1);
+
+    &:hover { box-shadow: var(--md-elevation-2); }
+    &:active { opacity: 0.88; }
+
+    &.is-disabled {
+        opacity: 0.45;
+        box-shadow: none;
+        pointer-events: none;
+    }
 }
 
 .desktop-field {
