@@ -23,19 +23,11 @@
 <script setup lang="ts">
 import { getCloudHomeData } from '@/api/cloud'
 import { useUserStore } from '@/stores/user'
+import { useCountdown, formatCountdown } from '@/hooks/useCountdown'
 import { hideDesktopReminderWindow, isDesktopClient, openDesktopRoute } from '@/utils/desktop'
 import { onHide, onShow, onUnload } from '@dcloudio/uni-app'
-import { computed, reactive, ref } from 'vue'
-
-type CloudResourceItem = {
-    id?: number | string
-    name?: string
-    resource_name?: string
-    desktop_oid?: string
-    expired_at?: number | string
-    expired_at_text?: string
-    status_text?: string
-}
+import { computed, reactive } from 'vue'
+import type { CloudResourceItem } from '@/types/cloud'
 
 const userStore = useUserStore()
 
@@ -44,7 +36,7 @@ const state = reactive({
 })
 
 const currentResource = computed(() => state.items[0] || null)
-const nowSeconds = ref(Math.floor(Date.now() / 1000))
+const { nowSeconds, startTick, stopTick } = useCountdown()
 
 const isExpired = computed(() => {
     const expiredAt = Number(currentResource.value?.expired_at || 0)
@@ -55,24 +47,10 @@ const isExpired = computed(() => {
 const countdownText = computed(() => {
     const item = currentResource.value
     if (!item) return ''
-
-    const expiredAt = Number(item.expired_at || 0)
-    if (!expiredAt) return ''
-
-    const diff = expiredAt - nowSeconds.value
-    if (diff <= 0) return '已到期'
-
-    const days = Math.floor(diff / 86400)
-    const hours = Math.floor((diff % 86400) / 3600)
-    const minutes = Math.floor((diff % 3600) / 60)
-
-    if (days > 0) return `${days}天${hours}小时`
-    if (hours > 0) return `${hours}小时${minutes}分钟`
-    return `${Math.max(minutes, 1)}分钟`
+    return formatCountdown(Number(item.expired_at || 0), nowSeconds.value)
 })
 
 let refreshTimer: ReturnType<typeof setInterval> | null = null
-let tickTimer: ReturnType<typeof setInterval> | null = null
 
 const openWorkbench = async (url: string) => {
     if (isDesktopClient()) {
@@ -110,18 +88,13 @@ const clearTimers = () => {
         clearInterval(refreshTimer)
         refreshTimer = null
     }
-    if (tickTimer) {
-        clearInterval(tickTimer)
-        tickTimer = null
-    }
+    stopTick()
 }
 
 const startTimers = () => {
     clearTimers()
     refreshTimer = setInterval(() => loadData(), 60000)
-    tickTimer = setInterval(() => {
-        nowSeconds.value = Math.floor(Date.now() / 1000)
-    }, 1000)
+    startTick()
 }
 
 const closeReminder = () => {

@@ -1,16 +1,19 @@
 import request from '@/utils/request'
 
-//充值
-export function recharge(data: any) {
+export interface RechargeConfig {
+    min_amount?: number
+    template?: Array<{ amount: number; [key: string]: any }>
+    [key: string]: any
+}
+
+export function recharge(data: { money: number; pay_way: number | string }) {
     return request.post({ url: '/recharge/recharge', data }, { isAuth: true })
 }
 
-//充值记录
-export function rechargeRecord(data: any) {
+export function rechargeRecord(data: { page?: number; [key: string]: any }) {
     return request.get({ url: '/recharge/lists', data }, { isAuth: true })
 }
 
-// 充值配置
 export function rechargeConfig() {
-    return request.get({ url: '/recharge/config' }, { isAuth: true })
+    return request.get<RechargeConfig>({ url: '/recharge/config' }, { isAuth: true })
 }

@@ -15,11 +15,11 @@ export default class HttpRequest {
     retryRequest(options: RequestOptions, config: RequestConfig) {
         const { retryCount, retryTimeout } = config
         if (!retryCount || options.method?.toUpperCase() == RequestMethodsEnum.POST) {
-            return Promise.reject()
+            return Promise.reject(new Error('Retry not available'))
         }
         config.hasRetryCount = config.hasRetryCount ?? 0
         if (config.hasRetryCount >= retryCount) {
-            return Promise.reject()
+            return Promise.reject(new Error(`Max retries (${retryCount}) exceeded`))
         }
         config.hasRetryCount++
         uni.showLoading({ title: '加载中...' })
@@ -136,14 +136,14 @@ export default class HttpRequest {
                     }
                     reject(err)
                 },
-                complete(err) {
-                    if (err.errMsg !== RequestErrMsgEnum.ABORT) {
-                        requestCancel.remove(options.url)
+                complete(result) {
+                    if (result.errMsg !== RequestErrMsgEnum.ABORT) {
+                        requestCancel.remove(mergeOptions.url)
                     }
                 }
             })
             const { ignoreCancel } = mergeConfig
-            !ignoreCancel && requestCancel.add(options.url, requestTask)
+            !ignoreCancel && requestCancel.add(mergeOptions.url, requestTask)
         })
     }
 }

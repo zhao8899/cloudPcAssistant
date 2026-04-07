@@ -116,31 +116,11 @@ import { getDecorate } from '@/api/shop'
 import { useAppStore } from '@/stores/app'
 import { useUserStore } from '@/stores/user'
 import { showDesktopReminderWindow } from '@/utils/desktop'
+import { useCountdown, formatCountdownFull } from '@/hooks/useCountdown'
+import { iconCloud, iconAdd, iconChat, iconPip, iconAlarm } from '@/components/icons'
 import { onHide, onShow, onUnload } from '@dcloudio/uni-app'
-import { computed, reactive, ref } from 'vue'
-
-type CloudResourceItem = {
-    id?: number | string
-    name?: string
-    resource_name?: string
-    desktop_oid?: string
-    status_text?: string
-    status_class?: string
-    expired_at?: number | string
-    expired_at_text?: string
-}
-
-type SupportContent = {
-    title?: string
-    mobile?: string
-    time?: string
-}
-
-const iconCloud = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>`
-const iconAdd = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>`
-const iconChat = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>`
-const iconPip = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19 7h-8v6h8V7zm2-4H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14z"/></svg>`
-const iconAlarm = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22 5.72l-4.6-3.86-1.29 1.53 4.6 3.86L22 5.72zM7.88 3.39L6.6 1.86 2 5.71l1.29 1.53 4.59-3.85zM12 4c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7zm1-11h-2v5l4.28 2.54.72-1.21-3-1.78V9z"/></svg>`
+import { computed, reactive } from 'vue'
+import type { CloudResourceItem, SupportContent } from '@/types/cloud'
 
 const appStore = useAppStore()
 const userStore = useUserStore()
@@ -161,22 +141,12 @@ const expiringResource = computed(() => {
         .sort((a, b) => Number(a.expired_at || 0) - Number(b.expired_at || 0))[0] || null
 })
 
-const nowSeconds = ref(Math.floor(Date.now() / 1000))
-let tickTimer: ReturnType<typeof setInterval> | null = null
+const { nowSeconds, startTick, stopTick } = useCountdown()
 
 const expiringCountdownText = computed(() => {
     const item = expiringResource.value
     if (!item) return ''
-    const expiredAt = Number(item.expired_at || 0)
-    if (!expiredAt) return ''
-    const diff = expiredAt - nowSeconds.value
-    if (diff <= 0) return '已到期'
-    const days = Math.floor(diff / 86400)
-    const hours = Math.floor((diff % 86400) / 3600)
-    const minutes = Math.floor((diff % 3600) / 60)
-    if (days > 0) return `${days}天${hours}小时后到期`
-    if (hours > 0) return `${hours}小时${minutes}分钟后到期`
-    return `${Math.max(minutes, 1)}分钟后到期`
+    return formatCountdownFull(Number(item.expired_at || 0), nowSeconds.value)
 })
 
 const ensureLogin = () => {
@@ -239,11 +209,11 @@ const reloadData = async () => {
 
 onShow(() => {
     reloadData()
-    tickTimer = setInterval(() => { nowSeconds.value = Math.floor(Date.now() / 1000) }, 1000)
+    startTick()
 })
 
-onHide(() => { if (tickTimer) { clearInterval(tickTimer); tickTimer = null } })
-onUnload(() => { if (tickTimer) { clearInterval(tickTimer); tickTimer = null } })
+onHide(() => stopTick())
+onUnload(() => stopTick())
 </script>
 
 <style scoped lang="scss">
